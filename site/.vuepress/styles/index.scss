@@ -1,0 +1,23 @@
+/* Keep brand and layout colors in the same scope as the active color mode. */
+:root {
+  --vp-c-accent: #276a78;
+  --vp-c-accent-bg: #276a78;
+  --vp-c-accent-hover: #317480;
+  --vp-c-accent-soft: #e0f0f2;
+}
+[data-theme='dark'] {
+  --vp-c-accent: #8cccd5;
+  --vp-c-accent-bg: #276a78;
+  --vp-c-accent-hover: #a3d8df;
+  --vp-c-accent-soft: rgb(131 208 218 / .314);
+  --vp-navbar-c-bg: #1b1b1f;
+  --vp-sidebar-c-bg: #1b1b1f;
+}
+.vp-home .vp-hero-image { max-height: 132px; }
+.vp-home .vp-hero { padding-block: 3rem 2rem; }
+.vp-home .vp-hero-title { letter-spacing: -.045em; }
+.vp-home .vp-feature-title { font-size: 1.2rem; }
+
+html[data-theme='dark'] .vp-navbar,
+html[data-theme='dark'] .vp-sidebar { background: #1b1b1f !important; color: #e3e3e8; }
+html[data-theme='dark'] .vp-hero-action-button.primary { color: #fff; }

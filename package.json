@@ -1,0 +1,24 @@
+{
+  "name": "fanqiang123",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "fanqiang123 翻墙教程与资源门户",
+  "scripts": {
+    "build": "vuepress build site"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "dependencies": {
+    "acorn": "^8.19.0",
+    "cheerio": "^1.2.0"
+  },
+  "devDependencies": {
+    "vuepress": "2.0.0-rc.31",
+    "@vuepress/bundler-vite": "2.0.0-rc.31",
+    "@vuepress/theme-default": "2.0.0-rc.137",
+    "vue": "^3.5.0",
+    "sass-embedded": "^1.93.0"
+  }
+}

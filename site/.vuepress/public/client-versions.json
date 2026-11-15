@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "clients": {
+    "clash-verge-rev": {
+      "version": "v2.5.10",
+      "publishedAt": "2026-11-03T10:04:21Z",
+      "packages": {
+        "clash-verge-rev-windows-x64.exe": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:59:04Z"
+        },
+        "clash-verge-rev-windows-arm64.exe": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:54:49Z"
+        },
+        "clash-verge-rev-macos-arm64.dmg": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:54:43Z"
+        },
+        "clash-verge-rev-macos-x64.dmg": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:59:30Z"
+        },
+        "clash-verge-rev-linux-x64.deb": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:46:19Z"
+        },
+        "clash-verge-rev-linux-x64.rpm": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:46:22Z"
+        },
+        "clash-verge-rev-linux-arm64.deb": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:49:01Z"
+        },
+        "clash-verge-rev-linux-arm64.rpm": {
+          "version": "v2.5.10",
+          "updatedAt": "2026-11-03T09:49:01Z"
+        }
+      }
+    },
+    "clash-nyanpasu": {
+      "version": "v2.0.1",
+      "publishedAt": "2026-10-31T07:45:15Z",
+      "packages": {
+        "clash-nyanpasu-windows-x64.exe": {
+          "version": "v2.0.1",
+          "updatedAt": "2026-10-31T09:19:34Z"
+        },
+        "clash-nyanpasu-windows-arm64.exe": {
+          "version": "v2.0.1",
+          "updatedAt": "2026-10-31T09:18:39Z"
+        },
+        "clash-nyanpasu-macos-arm64.dmg": {
+          "version": "v2.0.1",
+          "updatedAt": "2026-10-31T09:18:18Z"
+        },
+        "clash-nyanpasu-macos-x64.dmg": {
+          "version": "v2.0.1",
+          "updatedAt": "2026-10-31T09:19:12Z"
+        }
+      }
+    },
+    "flclash": {
+      "version": "v0.9.3",
+      "publishedAt": "2026-11-04T07:54:38Z",
+      "packages": {
+        "flclash-windows-x64.exe": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:36Z"
+        },
+        "flclash-windows-arm64.exe": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:36Z"
+        },
+        "flclash-macos-arm64.dmg": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:36Z"
+        },
+        "flclash-macos-x64.dmg": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:37Z"
+        },
+        "flclash-android-arm64.apk": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:37Z"
+        },
+        "flclash-android-armv7.apk": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:37Z"
+        },
+        "flclash-linux-x64.appimage": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:38Z"
+        },
+        "flclash-linux-arm64.appimage": {
+          "version": "v0.9.3",
+          "updatedAt": "2026-11-04T07:54:37Z"
+        }
+      }
+    },
+    "v2rayn": {
+      "version": "7.25.6",
+      "publishedAt": "2026-10-11T05:59:58Z",
+      "packages": {
+        "v2rayn-windows-x64.zip": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:04:49Z"
+        },
+        "v2rayn-windows-arm64.zip": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:04:50Z"
+        },
+        "v2rayn-macos-arm64.dmg": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:03:34Z"
+        },
+        "v2rayn-macos-x64.dmg": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:03:31Z"
+        },
+        "v2rayn-linux-x64.deb": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:03:14Z"
+        },
+        "v2rayn-linux-x64.rpm": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:05:50Z"
+        },
+        "v2rayn-linux-arm64.deb": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:03:11Z"
+        },
+        "v2rayn-linux-arm64.rpm": {
+          "version": "7.25.6",
+          "updatedAt": "2026-10-11T06:05:45Z"
+        }
+      }
+    },
+    "v2rayng": {
+      "version": "2.3.15",
+      "publishedAt": "2026-11-01T06:59:32Z",
+      "packages": {
+        "v2rayng-android-universal.apk": {
+          "version": "2.3.15",
+          "updatedAt": "2026-11-01T06:59:44Z"
+        },
+        "v2rayng-android-arm64.apk": {
+          "version": "2.3.15",
+          "updatedAt": "2026-11-01T06:59:50Z"
+        },
+        "v2rayng-android-armv7.apk": {
+          "version": "2.3.15",
+          "updatedAt": "2026-11-01T06:59:47Z"
+        }
+      }
+    },
+    "hiddify": {
+      "version": "v4.1.1",
+      "publishedAt": "2026-03-05T17:22:57Z",
+      "packages": {
+        "hiddify-windows-x64.exe": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:48Z"
+        },
+        "hiddify-macos-universal.dmg": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:50Z"
+        },
+        "hiddify-android-universal.apk": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:57Z"
+        },
+        "hiddify-android-arm64.apk": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:51Z"
+        },
+        "hiddify-android-armv7.apk": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:50Z"
+        },
+        "hiddify-linux-x64.appimage": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:48Z"
+        },
+        "hiddify-linux-x64.deb": {
+          "version": "v4.1.1",
+          "updatedAt": "2026-03-05T17:22:48Z"
+        }
+      }
+    },
+    "clash-meta-android": {
+      "version": "v2.11.36",
+      "publishedAt": "2026-10-21T16:44:10Z",
+      "packages": {
+        "clash-meta-android-android-universal.apk": {
+          "version": "v2.11.36",
+          "updatedAt": "2026-10-21T16:44:08Z"
+        },
+        "clash-meta-android-android-arm64.apk": {
+          "version": "v2.11.36",
+          "updatedAt": "2026-10-21T16:44:07Z"
+        },
+        "clash-meta-android-android-armv7.apk": {
+          "version": "v2.11.36",
+          "updatedAt": "2026-10-21T16:44:09Z"
+        }
+      }
+    },
+    "shadowrocket": {
+      "version": "2.2.93",
+      "publishedAt": "2026-10-29T03:15:39Z",
+      "packages": {}
+    },
+    "surge": {
+      "version": "5.23.0",
+      "publishedAt": "2026-10-12T23:54:04Z",
+      "packages": {}
+    },
+    "quantumult-x": {
+      "version": "1.8.1",
+      "publishedAt": "2026-10-07T11:43:14Z",
+      "packages": {}
+    }
+  }
+}

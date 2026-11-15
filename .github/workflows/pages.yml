@@ -1,0 +1,80 @@
+name: Build and publish fanqiang123
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fanqiang123-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify release and Pages configuration
+        if: github.event_name != 'pull_request'
+        env:
+          API_ORIGIN: ${{ secrets.fanqiang123_API_ORIGIN }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+          test "$(git rev-parse "refs/tags/recovery-ready/${GITHUB_SHA}^{commit}")" = "${GITHUB_SHA}"
+          node --input-type=module -e '
+            const origin = process.env.API_ORIGIN;
+            if (!origin || new URL(origin).origin !== origin || !origin.startsWith("https://")) {
+              throw new Error("Set fanqiang123_API_ORIGIN to the HTTPS origin of the fanqiang123 API");
+            }
+          '
+      - uses: actions/configure-pages@v5
+        id: pages
+        if: github.event_name != 'pull_request'
+      - name: Build VuePress
+        env:
+          fanqiang123_SITE_BASE: ${{ format('{0}/', steps.pages.outputs.base_path) }}
+          VITE_fanqiang123_API_ORIGIN: ${{ secrets.fanqiang123_API_ORIGIN }}
+        run: npm run build
+      - name: Identify release and upload root
+        if: github.event_name != 'pull_request'
+        run: |
+          test -f site/.vuepress/dist/index.html
+          test -f site/.vuepress/dist/404.html
+          printf '{"sourceSha":"%s"}\n' "${GITHUB_SHA}" > site/.vuepress/dist/release.json
+      - uses: actions/upload-pages-artifact@v4
+        if: github.event_name != 'pull_request'
+        with:
+          path: site/.vuepress/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: fanqiang123-pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
