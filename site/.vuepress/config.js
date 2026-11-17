@@ -5,6 +5,9 @@ import { defaultTheme } from '@vuepress/theme-default'
 
 const base = process.env.fanqiang123_SITE_BASE || '/'
 const apiOrigin = process.env.VITE_fanqiang123_API_ORIGIN || ''
+const analyticsId = process.env.NODE_ENV === 'production'
+  ? '78efe88a-e0df-4435-bf4c-5fc1270be407'
+  : ''
 if (apiOrigin && new URL(apiOrigin).origin !== apiOrigin) {
   throw new Error('VITE_fanqiang123_API_ORIGIN must be an origin without a trailing slash or path')
 }
@@ -17,6 +20,12 @@ export const siteConfig = {
   description: '翻墙教程、工具资讯、免费节点与机场信息，连接更大的世界。',
   head: [
     ['link', { rel: 'icon', href: `${base}logo-plane.svg` }],
+    ...(analyticsId ? [['script', {
+      defer: true,
+      src: 'https://umami.gemcook.net/script.js',
+      'data-website-id': analyticsId,
+      'data-domains': 'fanqiang123.com,www.fanqiang123.com',
+    }]] : []),
   ],
   bundler: viteBundler(),
   theme: defaultTheme({
