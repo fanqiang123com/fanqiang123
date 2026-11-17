@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "three-steps",
+  "headerPosition": "50% 55%",
+  "watermark": {
+    "name": "翻墙123",
+    "url": "fanqiang123.com"
+  },
+  "inline": [
+    {
+      "src": "/art/three-steps-v4-inline-600.webp",
+      "width": 600,
+      "height": 200,
+      "bytes": 13298
+    },
+    {
+      "src": "/art/three-steps-v4-inline-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 22504
+    },
+    {
+      "src": "/art/three-steps-v4-inline-1800.webp",
+      "width": 1800,
+      "height": 600,
+      "bytes": 57270
+    }
+  ],
+  "header": [
+    {
+      "src": "/art/three-steps-v4-header-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 13822
+    },
+    {
+      "src": "/art/three-steps-v4-header-1600.webp",
+      "width": 1600,
+      "height": 534,
+      "bytes": 29198
+    },
+    {
+      "src": "/art/three-steps-v4-header-2160.webp",
+      "width": 2160,
+      "height": 720,
+      "bytes": 45922
+    }
+  ]
+}

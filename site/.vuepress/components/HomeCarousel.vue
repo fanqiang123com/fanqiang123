@@ -6,17 +6,18 @@ import TopicArt from './TopicArt.vue'
 
 const slides = [
   {
-    title: ['连接更大的世界，', '从搞懂第一步开始'],
-    description: ['工具怎么选？订阅怎么用？节点怎么导入？', '把复杂的事情，讲得简单一点。'],
+    title: ['开始翻墙，', '总共分三步'],
+    description: ['用本站免费节点，跟着截图操作。', '找节点、装软件、开连接。'],
     action: '从零开始学翻墙',
-    art: 'beginner',
-    to: articles.find(article => article.id === 'start').href,
+    art: 'three-steps-workshop',
+    articleCover: true,
+    to: articles.find(article => article.id === 'three-steps').href,
   },
   {
     title: ['客户端怎么选？', '先看你的设备'],
     description: ['按系统筛选，比较亮点、短板和推荐指数。'],
     action: '查看客户端指南',
-    art: 'clash',
+    art: 'client-guide-v1-cover',
     to: '/clients/',
   },
   {
@@ -71,12 +72,12 @@ function endSwipe(event) {
         :key="slide.to"
         :to="slide.to"
         class="hero-feature"
-        :class="{ 'is-current': current === index }"
+        :class="{ 'is-current': current === index, 'hero-feature--article': slide.articleCover }"
         :inert="current !== index"
         :aria-hidden="current !== index ? 'true' : undefined"
       >
         <div class="hero-copy">
-          <h1>{{ slide.title[0] }}<br>{{ slide.title[1] }}<span>。</span></h1>
+          <h1>{{ slide.title[0] }}<br class="hero-title-break">{{ slide.title[1] }}<span>。</span></h1>
           <p>{{ slide.description[0] }}<template v-if="slide.description[1]"><br>{{ slide.description[1] }}</template></p>
           <span class="hero-action">{{ slide.action }} <i aria-hidden="true">↗</i></span>
         </div>
@@ -109,18 +110,24 @@ function endSwipe(event) {
 <style scoped>
 .hero-carousel {
   position:relative;
+  align-self:start;
   min-width:0;
   overflow:hidden;
-  border-radius:13px;
+  border-radius:var(--feature-radius);
+  box-shadow:var(--card-shadow);
   background:var(--hero-bg);
 }
 .hero-slides {
   display:grid;
-  height:100%;
+  grid-template-columns:minmax(0, 1fr);
   touch-action:pan-y pinch-zoom;
 }
 .hero-feature {
   grid-area:1 / 1;
+  display:grid;
+  grid-template-columns:minmax(0, 2fr) minmax(0, 3fr);
+  align-items:center;
+  min-height:0;
   visibility:hidden;
   opacity:0;
 }
@@ -133,9 +140,11 @@ function endSwipe(event) {
   outline:2px solid #c2d5ff;
   outline-offset:-4px;
 }
-.hero-copy {
-  padding-bottom:54px;
+.hero-feature .hero-copy {
+  width:auto;
+  padding:24px 20px 52px 28px;
 }
+.hero-feature .hero-copy h1 { text-wrap:balance; }
 .hero-controls {
   position:absolute;
   z-index:3;
@@ -185,13 +194,53 @@ function endSwipe(event) {
   white-space:nowrap;
 }
 @media (max-width:640px) {
-  .hero-copy {
-    padding-bottom:60px;
-  }
   .hero-controls button {
     width:44px;
     height:44px;
   }
+}
+/* Keep every slide in the same grid cell so content changes cannot resize it. */
+.hero-feature :deep(.paper-art) {
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  opacity:1;
+  background:transparent!important;
+}
+.hero-feature :deep(.paper-art > img) {
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+}
+@media (min-width:1101px) and (max-width:1280px) {
+  .hero-feature .hero-copy h1 { font-size:clamp(25px, 2.25vw, 28px); }
+}
+@media (min-width:851px) and (max-width:1100px) {
+  .hero-feature .hero-copy { padding:18px 14px 52px 20px; }
+  .hero-feature .hero-copy h1 { font-size:23px; line-height:1.4; }
+  .hero-feature .hero-action { margin-top:12px; gap:12px; }
+}
+@media (max-width:680px) {
+  .hero-feature {
+    grid-template-columns:minmax(0, 1fr);
+    grid-template-rows:auto 1fr;
+  }
+  .hero-feature :deep(.paper-art) { grid-row:1; }
+  .hero-feature .hero-copy {
+    align-self:start;
+    padding:12px 16px 52px;
+  }
+  .hero-feature .hero-copy h1 {
+    font-size:18px;
+    line-height:1.4;
+    margin-bottom:4px;
+  }
+  .hero-feature--article .hero-copy h1,.hero-title-break { display:none; }
+  .hero-feature .hero-copy p { line-height:1.6; }
+  .hero-feature .hero-action { margin-top:10px; }
+  .hero-controls { bottom:4px; }
 }
 @media (prefers-reduced-motion:reduce) {
   .hero-feature.is-current {

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ lang }}" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress {{ version }}">
+    <script>
+      let preference
+      try {
+        preference = localStorage.getItem('vuepress-color-scheme')
+      } catch { /* Use the system appearance if storage is unavailable. */ }
+
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      document.documentElement.dataset.theme =
+        preference === 'light' || preference === 'dark' ? preference : systemTheme
+    </script>
+    <style>
+      html { background-color:#fff; }
+      html[data-theme='dark'] { background-color:#1b1b1f; }
+    </style>
+    <!--vuepress-ssr-head-->
+    <!--vuepress-ssr-styles-->
+    <!--vuepress-ssr-preload-->
+    <!--vuepress-ssr-prefetch-->
+  </head>
+  <body>
+    <div id="app"><!--vuepress-ssr-content--></div>
+    <!--vuepress-ssr-scripts-->
+  </body>
+</html>

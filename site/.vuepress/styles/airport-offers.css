@@ -1,0 +1,54 @@
+.tools-directory > .section-breadcrumb { padding-block:0; }
+.offer-order {
+  color:var(--muted);
+  font-size:14px;
+}
+.offer-list {
+  display:grid;
+  gap:12px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.offer-row {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,3fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--card-border);
+  border-radius:var(--card-radius);
+  box-shadow:var(--card-shadow);
+  background:var(--surface);
+  overflow-wrap:anywhere;
+}
+.offer-name h2 {
+  font-size:17px;
+}
+.offer-name p,.offer-details dt {
+  color:var(--muted);
+}
+.offer-details {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:0;
+}
+.offer-details dd {
+  margin:3px 0 0;
+  font-weight:600;
+}
+.offer-details code {
+  padding:2px 5px;
+  border-radius:4px;
+  background:var(--control-hover,#eef3ff);
+  color:var(--blue);
+}
+@media(max-width:680px) {
+  .offer-row {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .offer-details {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}

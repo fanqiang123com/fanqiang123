@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "clash-rule-global",
+  "headerPosition": "50% 55%",
+  "watermark": {
+    "name": "翻墙123",
+    "url": "fanqiang123.com"
+  },
+  "inline": [
+    {
+      "src": "/art/clash-rule-global-v2-inline-600.webp",
+      "width": 600,
+      "height": 200,
+      "bytes": 28100
+    },
+    {
+      "src": "/art/clash-rule-global-v2-inline-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 52514
+    },
+    {
+      "src": "/art/clash-rule-global-v2-inline-1800.webp",
+      "width": 1800,
+      "height": 600,
+      "bytes": 138446
+    }
+  ],
+  "header": [
+    {
+      "src": "/art/clash-rule-global-v2-header-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 50020
+    },
+    {
+      "src": "/art/clash-rule-global-v2-header-1600.webp",
+      "width": 1600,
+      "height": 534,
+      "bytes": 116086
+    },
+    {
+      "src": "/art/clash-rule-global-v2-header-2160.webp",
+      "width": 2160,
+      "height": 720,
+      "bytes": 185162
+    }
+  ]
+}

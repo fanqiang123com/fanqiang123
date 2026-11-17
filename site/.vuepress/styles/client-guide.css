@@ -1,0 +1,135 @@
+.client-directory {
+  --guide-secondary:#52647e;
+  --guide-chip:#eef3fb;
+  --star:#a25912;
+}
+[data-theme='dark'] .client-directory {
+  --guide-secondary:var(--muted);
+  --guide-chip:var(--surface-subtle);
+  --star:#ffc574;
+}
+.client-directory>.section-breadcrumb {
+  padding-block:0;
+  align-items:center;
+  font-size:12px;
+}
+.guide-results {
+  display:grid;
+  gap:10px;
+}
+.platform-filter {
+  min-inline-size:0;
+  margin:0;
+  padding:0;
+  border:0;
+}
+.platform-options {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.platform-option {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:44px;
+  padding:0 12px;
+  border:1px solid var(--line);
+  border-radius:var(--control-radius);
+  background:var(--surface,#fff);
+  cursor:pointer;
+  font-size:14px;
+}
+.platform-option:has(input:checked) {
+  border-color:var(--blue);
+  background:var(--control-hover,#e7eeff);
+  color:var(--blue);
+}
+.platform-option input {
+  width:16px;
+  height:16px;
+  margin:0;
+  accent-color:var(--blue);
+}
+.platform-count,.directory-summary {
+  color:var(--guide-secondary);
+  font-size:13px;
+}
+.fq-site .reset-filter {
+  min-height:44px;
+  color:var(--blue);
+  padding-inline:8px;
+}
+.directory-summary {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:4px 14px;
+}
+.guide-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,315px),1fr));
+  gap:16px;
+}
+.client-platforms {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.client-platforms li {
+  padding:2px 8px;
+  border-radius:5px;
+  background:var(--guide-chip);
+  color:var(--guide-secondary);
+  font-size:12px;
+}
+.client-description,.client-notes {
+  font-size:14px;
+  line-height:1.55;
+}
+.client-notes {
+  display:grid;
+  grid-template-columns:max-content minmax(0,1fr);
+  gap:6px 8px;
+  margin:0;
+  color:var(--guide-secondary);
+}
+.client-notes dt {
+  color:var(--ink);
+  font-weight:650;
+}
+.client-notes dd {
+  margin:0;
+}
+.guide-card-actions {
+  display:grid;
+  gap:6px;
+  margin-top:auto;
+  padding-top:8px;
+  border-top:1px solid var(--line);
+}
+.fq-site .client-rating {
+  display:inline-flex;
+  align-items:center;
+  justify-self:start;
+  gap:8px;
+  min-height:36px;
+  color:var(--guide-secondary);
+}
+.rating-stars {
+  font-size:17px;
+  letter-spacing:.09em;
+}
+.rating-stars span {
+  color:var(--star);
+}
+.rating-number {
+  font-size:13px;
+}
+.fq-site .client-rating:hover {
+  text-decoration:underline;
+}

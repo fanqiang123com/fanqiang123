@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "gemini-4-hydrogen",
+  "headerPosition": "50% 50%",
+  "watermark": {
+    "name": "翻墙123",
+    "url": "fanqiang123.com"
+  },
+  "inline": [
+    {
+      "src": "/art/gemini-4-hydrogen-v2-inline-600.webp",
+      "width": 600,
+      "height": 200,
+      "bytes": 8052
+    },
+    {
+      "src": "/art/gemini-4-hydrogen-v2-inline-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 12488
+    },
+    {
+      "src": "/art/gemini-4-hydrogen-v2-inline-1800.webp",
+      "width": 1800,
+      "height": 600,
+      "bytes": 26316
+    }
+  ],
+  "header": [
+    {
+      "src": "/art/gemini-4-hydrogen-v2-header-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 9002
+    },
+    {
+      "src": "/art/gemini-4-hydrogen-v2-header-1600.webp",
+      "width": 1600,
+      "height": 534,
+      "bytes": 18152
+    },
+    {
+      "src": "/art/gemini-4-hydrogen-v2-header-2160.webp",
+      "width": 2160,
+      "height": 720,
+      "bytes": 26826
+    }
+  ]
+}

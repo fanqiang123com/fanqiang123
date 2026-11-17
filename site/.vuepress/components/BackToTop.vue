@@ -4,12 +4,14 @@ import { useFrontmatter, useRoute } from 'vuepress/client'
 
 const frontmatter = useFrontmatter()
 const route = useRoute()
+const props = defineProps({ preview: Boolean })
 const visible = ref(false)
-const progress = ref(0)
+const progress = ref(props.preview ? 100 : 0)
 const scrolling = ref(false)
 let idleTimer
 
 function readPosition() {
+  if (props.preview) return
   const { scrollHeight, clientHeight } = document.documentElement
   const distance = scrollHeight - clientHeight
   const offset = Math.max(0, window.scrollY)
@@ -42,6 +44,7 @@ watch(() => route.fullPath, () => {
 }, { flush: 'post' })
 
 onMounted(() => {
+  if (props.preview) return
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', readPosition)
   readPosition()
@@ -56,8 +59,8 @@ onUnmounted(() => {
 
 <template>
   <Transition name="back-to-top-fade">
-    <button v-if="frontmatter.backToTop !== false && visible" type="button" class="portal-back-to-top"
-      :class="{ 'is-scrolling': scrolling }" aria-label="返回顶部" @click="scrollToTop">
+    <button v-if="preview || (frontmatter.backToTop !== false && visible)" type="button" class="portal-back-to-top"
+      :class="{ 'is-scrolling': scrolling, 'is-preview': preview }" :aria-label="preview ? '返回顶部样例' : '返回顶部'" @click="scrollToTop">
       <span class="scroll-percent" aria-hidden="true">{{ Math.floor(progress) }}%</span>
       <svg class="scroll-arrow" viewBox="0 0 48 48" aria-hidden="true">
         <path d="M24 42V14 M12 26l12-12 12 12 M12 6h24" fill="none" stroke="currentColor"
@@ -101,6 +104,7 @@ html[data-theme='dark'] .portal-back-to-top {
   outline:2px solid var(--portal-accent);
   outline-offset:2px;
 }
+.portal-back-to-top.is-preview { position:relative; inset:auto; z-index:auto; }
 .scroll-percent,.scroll-arrow {
   grid-area:1 / 1;
   transition:opacity .5s ease;

@@ -14,7 +14,10 @@ if (apiOrigin && new URL(apiOrigin).origin !== apiOrigin) {
 
 export const siteConfig = {
   base,
-  alias: { '@theme/VPFadeSlideYTransition.vue': fileURLToPath(new URL('./components/PageTransition.vue', import.meta.url)) },
+  alias: {
+    '@theme/VPFadeSlideYTransition.vue': fileURLToPath(new URL('./components/PageTransition.vue', import.meta.url)),
+  },
+  templateBuild: fileURLToPath(new URL('./build.html', import.meta.url)),
   lang: 'zh-CN',
   title: '翻墙123',
   description: '翻墙教程、工具资讯、免费节点与机场信息，连接更大的世界。',
@@ -46,4 +49,7 @@ export const siteConfig = {
   }),
 }
 
-export default defineUserConfig(siteConfig)
+export default defineUserConfig({
+  ...siteConfig,
+  pagePatterns: ['**/*.md', '!.vuepress', '!style/**'],
+})

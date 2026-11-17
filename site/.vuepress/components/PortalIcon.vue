@@ -2,8 +2,13 @@
 import { computed } from 'vue'
 const props=defineProps({type:{type:String,default:'beginner'}})
 const shapes={
+ share:['M15 24a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM43 10a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM43 38a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z','M15 22l18-10M15 26l18 10'],
+ copy:['M16 15h24v25H16z','M32 8H8v24'],
+ qr:['M6 6h14v14H6zM28 6h14v14H28zM6 28h14v14H6z','M12 13h2m20 0h2M12 35h2m14-7v8h8v6m-8 0h1m7-14h6v9'],
+ close:['M12 12l24 24M36 12 12 36'],
  download:['M7 30v10h34V30','M24 7v24m-9-9 9 9 9-9'],
  grid:['M7 7h13v13H7zM28 7h13v13H28zM7 28h13v13H7zM28 28h13v13H28z'],
+ folder:['M5 12h14l5 6h19v23H5z','M5 24h38'],
  toolkit:['M5 16h38v24H5z','M16 16V9h16v7M5 25h38M20 23v5h8v-5'],
  megaphone:['M6 19h10l19-9v28l-19-9H6z','m13 29 4 10h7l-5-11M40 19l4-3M40 24h5M40 29l4 3'],
  beginner:['M7 9h11l6 4 6-4h11v27H30l-6 4-6-4H7z','M24 13v27M12 15h6M12 21h6M30 16h6M30 22h6'],
@@ -22,4 +27,15 @@ const shapes={
 }
 const paths=computed(()=>shapes[props.type]||shapes.beginner)
 </script>
-<template><svg class="portal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path :d="paths[0]" fill="currentColor" opacity=".14" transform="translate(1 2)"/><path :d="paths[0]" fill="currentColor" opacity=".13"/><path :d="paths[0]" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path v-if="paths[1]" :d="paths[1]" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></template>
+<template>
+  <svg class="portal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <path v-if="type === 'pin'" d="M15 7h18v5h-3v8l7 8v4H11v-4l7-8v-8h-3zM24 32v10"
+      stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <template v-else>
+      <path :d="paths[0]" fill="currentColor" opacity=".14" transform="translate(1 2)"/>
+      <path :d="paths[0]" fill="currentColor" opacity=".13"/>
+      <path :d="paths[0]" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      <path v-if="paths[1]" :d="paths[1]" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+  </svg>
+</template>

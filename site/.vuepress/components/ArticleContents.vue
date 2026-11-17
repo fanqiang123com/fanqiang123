@@ -1,14 +1,18 @@
 <script setup>
-import { nextTick, ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vuepress/client'
+import HeaderPanelIcon from './HeaderPanelIcon.vue'
 
 const route = useRoute()
 const router = useRouter()
 
-const props = defineProps({ article: Object })
+const props = defineProps({ article: Object, inHeader: Boolean, headerOpen: Boolean })
+const emit = defineEmits(['toggle', 'close'])
 const headings = shallowRef([])
 const activeId = ref('')
 const expanded = ref(false)
+
+watch(() => props.inHeader, () => { expanded.value = false })
 
 watch(() => props.article, (article, _, onCleanup) => {
   headings.value = []
@@ -20,8 +24,11 @@ watch(() => props.article, (article, _, onCleanup) => {
   function updateActive() {
     const entries = headings.value
     let active = entries[0]
+    if (!active) return
+    const anchorOffset = parseFloat(getComputedStyle(active.element).scrollMarginTop) || 0
+    const threshold = Math.max(100, anchorOffset + 1)
     for (const entry of entries) {
-      if (entry.element.getBoundingClientRect().top > 100) break
+      if (entry.element.getBoundingClientRect().top > threshold) break
       active = entry
     }
     activeId.value = active?.id ?? ''
@@ -67,21 +74,29 @@ function anchor(id) {
   return '#' + encodeURIComponent(id)
 }
 
-async function jumpToHeading(event, entry) {
+function jumpToHeading(event, entry) {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
   event.preventDefault()
   expanded.value = false
+  if (props.headerOpen) emit('close')
 
-  // Use the router for history and the actual heading element for positioning.
-  await router.push({ path: route.path, query: route.query, hash: '#' + entry.id })
-  await nextTick()
-  if (entry.element.isConnected) entry.element.scrollIntoView({ behavior: 'instant' })
+  router.push({ path: route.path, query: route.query, hash: '#' + entry.id })
 }
 </script>
 
 <template>
-  <nav v-if="headings.length" class="article-contents" aria-label="此页内容">
-      <button type="button" class="article-contents-toggle" :aria-expanded="expanded" aria-controls="article-contents-list" @click="expanded = !expanded">
+  <Teleport v-if="headings.length && inHeader" to="#site-header-contents-slot">
+    <button class="header-icon-action header-contents-toggle"
+      type="button" aria-label="此页内容" title="此页内容" :aria-expanded="headerOpen"
+      aria-controls="article-contents-panel" @click="emit('toggle')">
+      <HeaderPanelIcon type="contents"/>
+    </button>
+  </Teleport>
+  <Teleport v-if="headings.length" to="#mobile-header-contents-slot" :disabled="!inHeader">
+    <nav id="article-contents-panel" class="article-contents"
+      :class="{ 'article-contents--header': inHeader }" aria-label="此页内容">
+      <button v-if="!inHeader" type="button" class="article-contents-toggle" :aria-expanded="expanded"
+        aria-controls="article-contents-list" @click="expanded = !expanded">
         此页内容 <span aria-hidden="true">{{ expanded ? '▴' : '▾' }}</span>
       </button>
       <ul id="article-contents-list">
@@ -93,7 +108,8 @@ async function jumpToHeading(event, entry) {
           >{{ entry.title }}</a>
         </li>
       </ul>
-  </nav>
+    </nav>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -127,7 +143,12 @@ ul {
 }
 
 @media (max-width: 850px) {
-  .article-contents {
+  .article-contents:not(.article-contents--header) {
+    position: sticky;
+    top: var(--mobile-header-height, 0px);
+    z-index: 4;
+    align-self: start;
+    background: var(--bg);
     border-bottom: 1px solid var(--line);
   }
   .article-contents-toggle {
@@ -135,10 +156,30 @@ ul {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    min-height: 44px;
     padding: 10px 0;
     font-size: 13px;
   }
   .article-contents-toggle[aria-expanded='false'] + ul { display: none; }
-  ul { margin-bottom: 12px; }
+  .article-contents:not(.article-contents--header) ul {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    max-height: 55dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 0 0 var(--control-radius) var(--control-radius);
+    box-shadow: var(--card-shadow);
+  }
+}
+@media (max-width: 780px) {
+  .article-contents--header {
+    max-height: 55dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: 8px 18px 14px;
+  }
 }
 </style>

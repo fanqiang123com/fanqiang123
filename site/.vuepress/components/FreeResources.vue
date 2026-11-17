@@ -1,43 +1,101 @@
 <script setup>
 import { computed, nextTick, ref, watch } from 'vue'
-import { RouteLink } from 'vuepress/client'
+import { RouteLink, withBase } from 'vuepress/client'
 import PortalIcon from './PortalIcon.vue'
 import FreeNodeList from './FreeNodeList.vue'
 import ToolBreadcrumb from './ToolBreadcrumb.vue'
 import { matchesNodeFilters } from '../free-node-filters.js'
+import { clientImportUrl, detectImportPlatform, importClients, importPlatforms } from '../free-node-import.js'
 import { portalApiUrl } from '../portal-api.js'
 
 const props = defineProps({ kind: { type: String, required: true } })
 const nodePage = computed(() => props.kind === 'nodes')
 const title = computed(() => nodePage.value ? '免费节点' : '免费小火箭 ID')
-const source = computed(() => nodePage.value ? 'https://clashfreenode.com/' : 'https://clashfreenode.com/shadowrocketids')
 const subscriptionPath = '/api/free-resources/subscribe'
-const downloadFormats = [
-  { value: 'clash', label: 'Clash / Mihomo' },
-  { value: 'v2ray', label: 'V2Ray / Shadowrocket' },
-  { value: 'singbox', label: 'sing-box / Hiddify' },
-]
-const downloadFormat = ref('clash')
 const nodeRegion = ref('')
 const nodeProtocols = ref([])
 const snapshot = ref(null)
-const allNodeOptions = computed(() => Object.values(snapshot.value?.directory ?? {}).flat())
-const availableProtocols = computed(() => [...new Set(allNodeOptions.value.map(node => node.protocol))])
-const formatCounts = computed(() => Object.fromEntries(downloadFormats.map(({ value }) => [
-  value, (snapshot.value?.directory?.[value] ?? []).filter(node =>
+const directoryRows = computed(() => {
+  const nodesByName = new Map()
+  for (const rows of Object.values(snapshot.value?.directory ?? {})) {
+    for (const node of rows) nodesByName.set(node.name, node)
+  }
+  return [...nodesByName.values()]
+})
+const availableProtocols = computed(() => [...new Set(directoryRows.value.map(node => node.protocol))])
+const formatCounts = computed(() => Object.fromEntries(Object.entries(snapshot.value?.directory ?? {}).map(([format, nodes]) => [
+  format, nodes.filter(node =>
     matchesNodeFilters(node, nodeRegion.value, nodeProtocols.value)).length,
 ])))
-function downloadUrl({ format, download } = {}) {
+function subscriptionUrl(format) {
   const params = new URLSearchParams()
   if (nodeRegion.value) params.set('region', nodeRegion.value)
   if (nodeProtocols.value.length !== availableProtocols.value.length) {
     for (const protocol of nodeProtocols.value) params.append('protocol', protocol)
   }
   if (format) params.set('format', format)
-  if (download) params.set('download', '1')
-  return portalApiUrl(subscriptionPath + (params.size ? '?' + params : ''))
+  const path = subscriptionPath + (params.size ? '?' + params : '')
+  return new URL(portalApiUrl(path), window.location.origin).href
 }
-const subscriptionUrl = () => new URL(downloadUrl(), window.location.origin).href
+const hasNodes = computed(() => Object.values(formatCounts.value).some(Boolean))
+const importPreferenceKey = 'fanqiang123:node-import'
+const importOpen = ref(false)
+const importPlatform = ref('')
+const importTrigger = ref(null)
+const importPanel = ref(null)
+const platformClients = computed(() => importClients.filter(client => client.platforms.includes(importPlatform.value)))
+const platformLabel = computed(() => importPlatforms.find(({ id }) => id === importPlatform.value)?.label)
+const qrDialog = ref(null)
+const qrImage = ref('')
+const qrFailed = ref(false)
+
+function restoreImportPreference() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(importPreferenceKey))
+    if (!saved) return
+    importOpen.value = saved.open === true
+    importPlatform.value = importPlatforms.some(({ id }) => id === saved.platform)
+      ? saved.platform
+      : detectImportPlatform(navigator)
+  } catch { /* Storage can be unavailable. The panel still works for this visit. */ }
+}
+
+function setImportPreference(open, platform = importPlatform.value || detectImportPlatform(navigator)) {
+  importOpen.value = open
+  importPlatform.value = platform
+  try {
+    sessionStorage.setItem(importPreferenceKey, JSON.stringify({ open, platform }))
+  } catch { /* Keep the panel usable when storage is unavailable. */ }
+}
+
+async function toggleImportPanel(open) {
+  setImportPreference(open)
+  if (!open) {
+    importTrigger.value?.focus({ preventScroll: true })
+    return
+  }
+  await nextTick()
+  importPanel.value?.scrollIntoView({
+    block: 'nearest',
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+  })
+}
+
+async function showSubscriptionQr() {
+  const dialog = qrDialog.value
+  const address = subscriptionUrl()
+  qrImage.value = ''
+  qrFailed.value = false
+  dialog.showModal()
+  try {
+    const { default: QRCode } = await import('qrcode')
+    const image = await QRCode.toDataURL(address, { width: 280, margin: 4 })
+    if (dialog.open && address === subscriptionUrl()) qrImage.value = image
+  } catch {
+    if (dialog.open && address === subscriptionUrl()) qrFailed.value = true
+  }
+}
+
 const status = ref('loading')
 const region = ref('')
 const shown = ref([])
@@ -64,7 +122,9 @@ watch(() => props.kind, async (kind, _, onCleanup) => {
   region.value = ''
   nodeRegion.value = ''
   nodeProtocols.value = []
-  downloadFormat.value = 'clash'
+  importOpen.value = false
+  importPlatform.value = ''
+  if (kind === 'nodes') restoreImportPreference()
   shown.value = []
   copied.value = ''
   manualCopy.value = ''
@@ -121,34 +181,76 @@ async function copy(value, label) {
   <p v-if="status === 'loading'" class="free-resource-message" role="status">正在加载资源…</p>
   <div v-else-if="status === 'unavailable'" class="free-resource-message">
     <p>本站暂时无法提供这批资源。</p>
-    <a :href="source">前往 CFN 查看{{ title }} ↗</a>
+    <a v-if="!nodePage" href="https://clashfreenode.com/shadowrocketids">前往 CFN 查看免费小火箭 ID ↗</a>
   </div>
   <template v-else-if="nodePage">
     <FreeNodeList
       v-model:region="nodeRegion"
       v-model:protocols="nodeProtocols"
-      :rows="snapshot.directory[downloadFormat]"
-      :options="allNodeOptions"
+      :rows="directoryRows"
     >
-      <template #download>
-        <section class="free-subscription-panel" aria-label="订阅操作">
-          <div class="free-subscription">
-            <button class="free-subscription-primary" type="button" :disabled="!Object.values(formatCounts).some(Boolean)" @click="copy(subscriptionUrl(), '通用订阅')">复制通用订阅</button>
-            <a v-if="formatCounts.v2ray" :href="downloadUrl({ download: true })">下载通用订阅</a>
-          </div>
-          <div class="free-subscription">
-            <label for="free-download-format">按客户端下载</label>
-            <select id="free-download-format" v-model="downloadFormat">
-              <option v-for="format in downloadFormats" :key="format.value" :value="format.value">
-                {{ format.label }}（{{ formatCounts[format.value] }}）
-              </option>
-            </select>
-            <a v-if="formatCounts[downloadFormat]" :href="downloadUrl({ format: downloadFormat, download: true })">下载配置</a>
-          </div>
-        </section>
+      <template #actions>
+        <button ref="importTrigger" class="free-subscription-primary" type="button"
+          :disabled="!hasNodes && !importOpen" :aria-expanded="importOpen" aria-controls="free-node-import"
+          @click="toggleImportPanel(!importOpen)">
+          <PortalIcon type="share"/> 导入订阅
+        </button>
+      </template>
+      <template #after-filters>
+        <Transition name="free-import">
+          <section id="free-node-import" v-show="importOpen" ref="importPanel" class="free-node-import"
+            aria-labelledby="free-node-import-title">
+            <div class="free-subscription-heading">
+              <h2 id="free-node-import-title">导入订阅</h2>
+              <button class="free-import-close" type="button" aria-label="关闭导入订阅" @click="toggleImportPanel(false)">
+                <PortalIcon type="close"/>
+              </button>
+            </div>
+            <div class="free-import-actions">
+              <button type="button" :disabled="!hasNodes" @click="copy(subscriptionUrl(), '订阅地址')">
+                <span class="free-import-action-icon"><PortalIcon type="copy"/></span>
+                <span><strong>复制订阅地址</strong><small>复制订阅链接到剪贴板</small></span>
+              </button>
+              <button type="button" :disabled="!hasNodes" @click="showSubscriptionQr">
+                <span class="free-import-action-icon"><PortalIcon type="qr"/></span>
+                <span><strong>扫描二维码订阅</strong><small>使用客户端扫描二维码导入</small></span>
+              </button>
+            </div>
+            <textarea v-if="manualCopy" ref="copyField" :value="manualCopy" aria-label="手动复制订阅地址"
+              readonly class="free-copy-field"/>
+            <div class="free-import-platforms" role="group" aria-label="选择设备系统">
+              <button v-for="platform in importPlatforms" :key="platform.id" type="button"
+                :aria-pressed="importPlatform === platform.id" @click="setImportPreference(true, platform.id)">{{ platform.label }}</button>
+            </div>
+            <h3 class="free-import-platform-title">{{ platformLabel }}</h3>
+            <ul class="free-import-clients" aria-label="一键导入客户端">
+              <li v-for="client in platformClients" :key="client.id">
+                <component :is="formatCounts[client.format] ? 'a' : 'span'" class="free-import-client"
+                  :href="formatCounts[client.format] ? clientImportUrl(client.id, subscriptionUrl(client.format)) : undefined"
+                  :aria-label="'导入到 ' + client.name" :aria-disabled="!formatCounts[client.format] || undefined">
+                  <img :src="withBase('/client-logos/' + client.id + '.png')" alt="" width="32" height="32">
+                  {{ client.name }}
+                </component>
+              </li>
+            </ul>
+            <p v-if="!platformClients.some(client => formatCounts[client.format])" class="free-import-unavailable">当前筛选没有可导入的节点。</p>
+          </section>
+        </Transition>
       </template>
     </FreeNodeList>
-    <RouteLink to="/articles/nodes.html" class="free-resource-card free-node-guide">
+    <dialog ref="qrDialog" class="free-qr-dialog" aria-labelledby="free-qr-title" @click.self="qrDialog.close()">
+      <div class="free-qr-content">
+        <div class="free-subscription-heading">
+          <h2 id="free-qr-title">扫描二维码订阅</h2>
+          <button class="free-import-close" type="button" aria-label="关闭二维码" autofocus @click="qrDialog.close()">
+            <PortalIcon type="close"/>
+          </button>
+        </div>
+        <img v-if="qrImage" :src="qrImage" alt="当前订阅链接的二维码" width="280" height="280">
+        <p v-else role="status">{{ qrFailed ? '二维码生成失败，请复制订阅地址。' : '正在生成二维码…' }}</p>
+      </div>
+    </dialog>
+    <RouteLink to="/articles/three-steps.html" class="free-resource-card free-node-guide">
       <PortalIcon type="beginner"/>
       <h2>第一次使用免费节点？</h2>
       <span>阅读使用指南 →</span>
@@ -202,175 +304,7 @@ async function copy(value, label) {
     </div>
   </template>
   <div v-if="copied" class="free-copy-status" role="status">{{ copied }}</div>
-  <textarea v-if="manualCopy" ref="copyField" :value="manualCopy" aria-label="手动复制内容" readonly class="free-copy-field"/>
+  <textarea v-if="manualCopy && !nodePage" ref="copyField" :value="manualCopy" aria-label="手动复制内容" readonly class="free-copy-field"/>
 </template>
 
-<style scoped>
-.free-resource-intro {
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px 20px;
-  padding-bottom:14px;
-}
-.free-resource-intro h1 {
-  font-size:clamp(26px,4vw,34px);
-  font-weight:700;
-  line-height:1.25;
-}
-.free-update-time {
-  --time-accent: var(--blue);
-  display:inline-flex;
-  align-items:center;
-  flex-wrap:wrap;
-  max-width:100%;
-  padding:6px 10px;
-  border:1px solid #c8dfe0;
-  border-radius:8px;
-  color:#4a6473;
-  background:var(--surface-subtle);
-  font-size:13px;
-  font-weight:500;
-}
-html[data-theme='dark'] .free-update-time {
-  color:var(--muted);
-  border-color:var(--line);
-}
-.free-update-time .portal-icon {
-  width:17px;
-  height:17px;
-  flex:none;
-  margin-inline-end:6px;
-  color:var(--time-accent);
-}
-.free-update-time time {
-  color:var(--time-accent);
-  font-weight:650;
-  font-variant-numeric:tabular-nums;
-}
-.free-resource-message,
-.free-resource-card {
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:var(--surface,#fff);
-  padding:16px;
-}
-.fq-site .free-resource-message { color:var(--ink); margin-bottom:20px }
-.fq-site .free-resource-message a { color:var(--blue) }
-.fq-site .free-resource-heading { margin-bottom:12px }
-.free-subscription-panel {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:12px 20px;
-  padding:12px 20px;
-  border-top:1px solid var(--line);
-  background:var(--surface-subtle,#f4f7fc);
-  border-radius:0 0 11px 11px;
-}
-.fq-site .free-subscription-primary {
-  min-height:36px;
-  padding:5px 12px;
-  border-radius:7px;
-  color:#fff;
-  background:#285ac9;
-  font-weight:650;
-}
-.fq-site .free-subscription-primary:hover { background:#214eaf }
-.fq-site .free-subscription-primary:disabled { opacity:.5; cursor:default }
-.fq-site .free-node-guide {
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:24px;
-}
-.free-node-guide .portal-icon { width:20px; height:20px; color:var(--blue) }
-.free-node-guide h2 { font-size:14px }
-.free-node-guide span { margin-inline-start:auto; color:var(--blue); font-weight:600 }
-.fq-site .free-node-guide:hover { border-color:var(--blue) }
-.free-id-grid { display:grid; gap:12px }
-.free-id-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)) }
-.free-subscription { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px }
-.free-subscription select {
-  min-height:36px;
-  max-width:100%;
-  padding:5px 8px;
-  border:1px solid var(--line);
-  border-radius:6px;
-  background:var(--surface,#fff);
-  color:var(--ink);
-}
-.fq-site .free-subscription a { color:var(--blue); font-weight:600 }
-.free-id-warning {
-  --warning-ink:#713608;
-  --warning-bg:#fff4e2;
-  --warning-line:#e5bd7f;
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  color:var(--warning-ink);
-  background:var(--warning-bg);
-  border:1px solid var(--warning-line);
-  border-radius:9px;
-  padding:14px 16px;
-  margin-bottom:16px;
-  font-size:13px;
-  line-height:1.55;
-}
-[data-theme='dark'] .free-id-warning {
-  --warning-ink:#ffdaa1;
-  --warning-bg:#332819;
-  --warning-line:#73552b;
-}
-.free-id-warning-icon {
-  display:grid;
-  place-items:center;
-  flex:none;
-  width:20px;
-  height:20px;
-  border:1px solid currentColor;
-  border-radius:50%;
-  font-weight:700;
-}
-.free-id-warning h2 { font-size:15px; line-height:20px }
-.free-id-warning ul { margin:6px 0 0; padding-inline-start:1.2em }
-.free-id-warning li + li { margin-top:3px }
-.free-id-toolbar {
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:8px 12px;
-  margin-bottom:12px;
-  font-size:13px;
-}
-.free-id-toolbar select { color:inherit; background:var(--surface,#fff); border:1px solid var(--line); border-radius:6px; padding:6px 9px; min-height:36px }
-.free-id-count { margin-inline-start:auto; color:var(--muted) }
-.free-id-card { display:grid; align-content:start; gap:12px; min-width:0 }
-.free-id-card h2 { font-size:17px; line-height:1.3 }
-.free-id-field { display:grid; gap:5px; min-width:0 }
-.free-id-label,
-.fq-site .free-id-checked { color:var(--muted); font-size:12px }
-.free-id-controls { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px }
-.free-id-controls>code,
-.free-id-secret { min-height:36px; border-radius:6px; background:var(--surface-subtle,#edf2fa) }
-.free-id-controls code { min-width:0; padding:7px 9px; align-content:center }
-.free-id-secret { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center }
-.free-id-secret button { display:grid; place-items:center; width:36px }
-.free-id-checked { padding-top:9px; border-top:1px solid var(--line) }
-.free-resource-card code { display:block; overflow-wrap:anywhere; font-size:12px }
-.free-resource-card button { flex:none; min-height:36px; border-radius:6px; color:var(--blue); background:var(--surface-subtle,#edf2fa); padding-inline:8px; font-size:13px; white-space:nowrap }
-.free-resource-card button:disabled { opacity:.5; cursor:default }
-.free-resource-card button:hover { background:var(--control-hover,#eaf1ff) }
-.free-resource-card button .portal-icon { width:18px; height:18px }
-.free-id-grid { margin-bottom:24px }
-.free-copy-status { position:fixed; inset:auto 16px 24px 16px; width:max-content; max-width:calc(100% - 32px); margin-inline:auto; border:1px solid var(--line); border-radius:8px; background:var(--surface,#fff); padding:8px 12px; z-index:5 }
-.free-copy-field { display:block; width:100%; color:inherit; background:var(--surface,#fff); margin-bottom:24px }
-@media(max-width:640px) {
-  .free-resource-card { padding:12px }
-  .free-resource-intro { flex-direction:column; align-items:flex-start }
-  .free-subscription-panel { padding:12px 14px }
-}
-</style>
+<style scoped src="../styles/free-resources.css"></style>

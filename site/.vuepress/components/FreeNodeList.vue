@@ -2,16 +2,16 @@
 import { computed, ref, watch } from 'vue'
 import { matchesNodeFilters, nodeProtocols as protocols } from '../free-node-filters.js'
 
-const props = defineProps({ rows: { type: Array, required: true }, options: { type: Array, required: true } })
+const props = defineProps({ rows: { type: Array, required: true } })
 const region = defineModel('region', { type: String, default: '' })
 const selectedProtocols = defineModel('protocols', { type: Array, required: true })
 const page = ref(1)
 const pageSize = 24
 const names = new Intl.DisplayNames('zh-CN', { type: 'region' })
 const regionName = code => code === 'Other' ? '未标注地区' : names.of(code)
-const regionOptions = computed(() => [...new Set(props.options.map(row => row.region))]
+const regionOptions = computed(() => [...new Set(props.rows.map(row => row.region))]
   .sort((a, b) => regionName(a).localeCompare(regionName(b), 'zh-CN')))
-const protocolOptions = computed(() => [...new Set(props.options.map(row => row.protocol))]
+const protocolOptions = computed(() => [...new Set(props.rows.map(row => row.protocol))]
   .sort((a, b) => (protocols[a] ?? a).localeCompare(protocols[b] ?? b)))
 const filtered = computed(() => props.rows.filter(row =>
   matchesNodeFilters(row, region.value, selectedProtocols.value)))
@@ -26,31 +26,32 @@ function resetFilters() {
 
 <template>
   <section class="node-directory" aria-labelledby="node-directory-title">
-    <div class="directory-controls">
-      <div class="directory-filters">
-        <label class="directory-region">地区
-          <select v-model="region" aria-label="地区">
-            <option value="">全部地区</option>
-            <option v-for="code in regionOptions" :key="code" :value="code">{{ regionName(code) }}</option>
-          </select>
-        </label>
-        <fieldset class="directory-protocols">
-          <legend>协议</legend>
-          <div class="directory-protocol-options">
-            <label v-for="key in protocolOptions" :key="key">
-              <input v-model="selectedProtocols" type="checkbox" :value="key">
-              {{ protocols[key] ?? key }}
-            </label>
-          </div>
-        </fieldset>
-      </div>
-      <slot name="download"/>
-    </div>
     <div class="directory-heading">
-      <h2 id="node-directory-title">节点列表</h2>
+      <h2 id="node-directory-title">节点选择</h2>
       <span class="directory-count" role="status">{{ filtered.length }} 个节点</span>
       <button v-if="region || selectedProtocols.length !== protocolOptions.length" type="button" @click="resetFilters">重置筛选</button>
     </div>
+    <div class="directory-filters" role="group" aria-label="节点筛选">
+      <label class="directory-region">地区
+        <select v-model="region">
+          <option value="">全部地区</option>
+          <option v-for="code in regionOptions" :key="code" :value="code">{{ regionName(code) }}</option>
+        </select>
+      </label>
+      <fieldset class="directory-protocols">
+        <legend>协议</legend>
+        <div class="directory-protocol-options">
+          <label v-for="key in protocolOptions" :key="key">
+            <input v-model="selectedProtocols" type="checkbox" :value="key">
+            {{ protocols[key] ?? key }}
+          </label>
+        </div>
+      </fieldset>
+      <div class="directory-actions">
+        <slot name="actions"/>
+      </div>
+    </div>
+    <slot name="after-filters"/>
     <p v-if="!visible.length" class="directory-empty">没有符合条件的节点。</p>
     <div v-else class="directory-table">
       <table>
@@ -73,19 +74,13 @@ function resetFilters() {
 
 <style scoped>
 .node-directory { margin-bottom: 24px; }
-.directory-controls {
-  margin-bottom: 26px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface, #fff);
-}
 .directory-filters {
   display: grid;
   grid-template-columns: minmax(135px, 180px) minmax(0, 1fr);
   align-items: start;
-  gap: 16px 24px;
-  padding: 18px 20px;
+  gap: 12px 20px;
 }
+.directory-actions { display: flex; grid-column: 1 / -1; }
 .directory-region, .directory-protocols legend {
   color: var(--ink);
   font-size: 13px;
@@ -100,7 +95,7 @@ function resetFilters() {
   min-height: 36px;
   padding: 5px 9px;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius:var(--control-radius);
   background: var(--surface-subtle, #f4f7fc);
   color: var(--ink);
   font: inherit;
@@ -116,7 +111,7 @@ function resetFilters() {
   min-height: 36px;
   padding: 3px 9px;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius:var(--control-radius);
   color: var(--ink);
   font-size: 13px;
   cursor: pointer;
@@ -127,22 +122,17 @@ function resetFilters() {
 }
 .directory-protocol-options input { margin: 0; accent-color: var(--blue); }
 .directory-heading, .directory-pagination { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
-.directory-heading { margin-bottom: 10px; }
-.directory-heading h2 { font-size: 19px; }
+.directory-heading { min-height: 32px; margin-bottom: 8px; }
+.directory-heading h2 { font-size: 19px; line-height: 1.35; }
 .directory-count { color: var(--muted); font-size: 13px; }
-.directory-heading button { margin-inline-start: auto; color: var(--blue); }
+.directory-heading button { min-height: 32px; margin-inline-start: auto; color: var(--blue); }
 @media (max-width: 640px) {
-  .directory-filters { grid-template-columns: minmax(0, 1fr); padding: 14px; }
-}
-.directory-table, .directory-empty {
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface, white);
+  .directory-filters { grid-template-columns: minmax(0, 1fr); }
 }
 .directory-table { overflow-x: auto; }
 .directory-table table { display: table; width: 100%; margin: 0; border-collapse: collapse; }
 .directory-table tr { background: transparent; }
-.directory-table th, .directory-table td { border: 0; padding: 9px 14px; text-align: start; }
+.directory-table th, .directory-table td { border: 0; padding: 9px var(--node-card-gutter); text-align: start; }
 .directory-table thead { background: var(--surface-subtle, #eef4fc); }
 .directory-table tbody tr + tr { border-top: 1px solid var(--line); }
 .directory-protocol {
