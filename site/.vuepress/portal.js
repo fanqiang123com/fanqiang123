@@ -30,6 +30,181 @@ export const toolResources = [
 
 export const articles = [
   {
+    "id": "tails-7-17-1",
+    "topics": [
+      "Tails",
+      "Tor Browser",
+      "uBlock Origin"
+    ],
+    "category": "进阶玩法",
+    "subcategory": "版本资讯",
+    "title": "Tails 7.17.1 紧急更新，暂时移除 uBlock Origin",
+    "description": "Tails 7.17.1 暂时移除预装的 uBlock Origin。了解更新影响、适用版本，以及如何升级并保留持久存储。",
+    "author": "翻墙123",
+    "tag": "版本资讯",
+    "example": false,
+    "art": "tails-7-17-1-v1-cover",
+    "articleArt": "tails-7-17-1",
+    "artlabel": "Tails 7.17.1 版本文字与启动 U 盘。",
+    "href": "/articles/tails-7-17-1.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "clash-verge-rev-setup",
+    "topics": [
+      "Clash Verge Rev",
+      "Windows",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "Clash Verge Rev 使用教程：Windows 第一次连接",
+    "description": "在 Windows 安装 Clash Verge Rev，用本站免费节点导入订阅、选节点并打开系统代理。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "clash-verge-rev-setup-v1-cover",
+    "artlabel": "粉紫圆形猫脸标识与 Clash Verge Rev、Windows 首次连接字样。",
+    "example": false,
+    "href": "/articles/clash-verge-rev-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "v2rayn-setup",
+    "topics": [
+      "v2rayN",
+      "Windows",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "v2rayN 使用教程：Windows 导入订阅并连接",
+    "description": "在 Windows 解压 v2rayN，添加订阅分组、更新节点并启用系统代理。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "v2rayn-setup-v1-cover",
+    "artlabel": "蓝色圆形 v2rayN 标识浮在浅蓝分组图形上，右侧是 Windows 订阅分组标题。",
+    "example": false,
+    "href": "/articles/v2rayn-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "shadowrocket-setup",
+    "topics": [
+      "Shadowrocket",
+      "iPhone",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "Shadowrocket 使用教程：iPhone 导入订阅并连接",
+    "description": "在 iPhone 上安装 Shadowrocket，用本站的 iOS 导入入口添加订阅并完成第一次连接。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "shadowrocket-setup-v1-cover",
+    "artlabel": "蓝紫渐变的火箭图标下方，居中排有 Shadowrocket 和 iPhone 导入与连接字样。",
+    "example": false,
+    "href": "/articles/shadowrocket-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "flclash-setup",
+    "topics": [
+      "FlClash",
+      "Android",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "FlClash 使用教程：Android 导入配置并连接",
+    "description": "在 Android 安装 FlClash，从本站导入 Clash 配置并完成第一次连接。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "flclash-setup-v1-cover",
+    "artlabel": "FlClash 蓝紫斜线和圆点图标位于右侧，左侧是 Android 导入配置标题。",
+    "example": false,
+    "href": "/articles/flclash-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "v2rayng-setup",
+    "topics": [
+      "v2rayNG",
+      "Android",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "v2rayNG 使用教程：Android 导入订阅并连接",
+    "description": "在 Android 安装 v2rayNG，导入订阅、选节点并按系统提示连接。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "v2rayng-setup-v1-cover",
+    "artlabel": "黑色 V 形 v2rayNG 图标衬在浅灰绿的节点图形上，右侧是 Android 选中节点标题。",
+    "example": false,
+    "href": "/articles/v2rayng-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "hiddify-setup",
+    "topics": [
+      "Hiddify",
+      "Android",
+      "订阅"
+    ],
+    "category": "新手入门",
+    "title": "Hiddify 使用教程：Android 导入订阅并试连",
+    "description": "在 Android 安装 Hiddify，用本站入口导入订阅，再从首页发起连接。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "hiddify-setup-v1-cover",
+    "artlabel": "蓝色阶梯状 Hiddify 图标与淡靛蓝圆环，下方居中排有 Android 导入与连接字样。",
+    "example": false,
+    "href": "/articles/hiddify-setup.html",
+    "date": "2026-11-22"
+  },
+  {
+    "id": "genie-4-project-genie",
+    "topics": ["AI", "Genie", "Google"],
+    "category": "进阶玩法",
+    "subcategory": "其他",
+    "title": "Google 推送 Genie 4：在生成的世界里边走边改",
+    "description": "Google 将 Genie 4 推向 Project Genie、Google AI Studio 和 Gemini API。了解边探索边改场景的新玩法，以及各入口的开放范围。",
+    "author": "翻墙123",
+    "tag": "AI",
+    "example": false,
+    "art": "genie-4-project-genie-v1-cover",
+    "articleArt": "genie-4-project-genie",
+    "artlabel": "背着背包的行人走在同一条街上，街景从暖色晴天过渡到蓝色雨夜。",
+    "href": "/articles/genie-4-project-genie.html",
+    "date": "2026-11-21"
+  },
+  {
+    "id": "manual-subscription-import",
+    "topics": ["Windows", "Clash Verge Rev", "订阅"],
+    "category": "新手入门",
+    "title": "一键导入没反应？试试复制订阅链接",
+    "description": "网页点了一键导入却没打开客户端？用本站免费节点，在 Windows 上手动把订阅导入 Clash Verge Rev。",
+    "author": "翻墙123",
+    "tag": "新手入门",
+    "art": "manual-subscription-import-v1-cover",
+    "articleArt": "manual-subscription-import",
+    "artlabel": "网页上的订阅链接复制成一张珊瑚色卡片，沿轨道送入客户端，屏幕显示绿色对勾。",
+    "example": false,
+    "href": "/articles/manual-subscription-import.html",
+    "date": "2026-11-21"
+  },
+  {
+    "id": "subscription-privacy",
+    "topics": ["隐私安全", "订阅"],
+    "category": "进阶玩法",
+    "subcategory": "隐私安全",
+    "title": "订阅链接怎么保护？截图、转换和泄露后的处理",
+    "description": "截图求助该遮哪里，订阅转换怎么选，链接误发后如何补救？用三个常见场景保护你的私人订阅。",
+    "author": "翻墙123",
+    "tag": "隐私安全",
+    "art": "subscription-privacy-v1-cover",
+    "articleArt": "subscription-privacy",
+    "artlabel": "妥善保管私人订阅链接、二维码与节点凭据",
+    "example": false,
+    "href": "/articles/subscription-privacy.html",
+    "date": "2026-11-17"
+  },
+  {
     "id": "gemini-4-hydrogen",
     "topics": ["AI", "Gemini", "Google"],
     "category": "进阶玩法",
@@ -91,9 +266,9 @@ export const articles = [
     "description": "Clash Verge Rev 的规则、全局、直连有什么区别？用一张对照表看懂日常选择，再排查全局能用、规则打不开的问题。",
     "author": "翻墙123",
     "tag": "规则分流",
-    "art": "clash-rule-global",
+    "art": "clash-rule-global-v4-cover",
     "articleArt": "clash-rule-global",
-    "artlabel": "Clash 规则模式和全局模式怎么选，电脑通过切换装置选择连接路线",
+    "artlabel": "从列车车窗望出去，铁轨在草地旁分向两条路线",
     "example": false,
     "href": "/articles/clash-rule-global.html",
     "date": "2026-11-16"
