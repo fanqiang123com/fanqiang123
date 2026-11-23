@@ -30,6 +30,46 @@ export const toolResources = [
 
 export const articles = [
   {
+    "id": "clash-rule-match-order",
+    "topics": [
+      "Clash Verge Rev",
+      "Mihomo",
+      "规则分流"
+    ],
+    "category": "进阶玩法",
+    "subcategory": "规则分流",
+    "title": "Clash Verge Rev 为什么没命中你想要的规则？",
+    "description": "同一个域名符合两条规则，Clash 会选哪条？用三行示例读懂规则顺序，再对照「连接」和「规则」找出实际命中的一条。",
+    "author": "翻墙123",
+    "tag": "规则分流",
+    "example": false,
+    "art": "clash-rule-match-order-v1-cover",
+    "articleArt": "clash-rule-match-order",
+    "artlabel": "一列按先后排列的规则，第一条高亮显示命中。",
+    "href": "/articles/clash-rule-match-order.html",
+    "date": "2026-11-23"
+  },
+  {
+    "id": "gemini-mac-computer-use",
+    "topics": [
+      "AI",
+      "Gemini",
+      "macOS"
+    ],
+    "category": "进阶玩法",
+    "subcategory": "其他",
+    "title": "Mac 版 Gemini 能在后台操作应用了，哪些人能用？",
+    "description": "Google 开始向美国符合条件的订阅用户推送 Mac 版 Gemini 的 Computer use。它能在独立窗口操作获准访问的应用，用户可以实时查看、中止任务。",
+    "author": "翻墙123",
+    "tag": "AI",
+    "example": false,
+    "art": "gemini-mac-computer-use-v1-cover",
+    "articleArt": "gemini-mac-computer-use",
+    "artlabel": "一张收据和报销表在独立窗口中处理，旁边的主窗口仍可操作。",
+    "href": "/articles/gemini-mac-computer-use.html",
+    "date": "2026-11-23"
+  },
+  {
     "id": "tails-7-17-1",
     "topics": [
       "Tails",

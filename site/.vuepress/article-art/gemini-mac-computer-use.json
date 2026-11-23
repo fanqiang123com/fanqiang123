@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "gemini-mac-computer-use",
+  "headerPosition": "50% 50%",
+  "watermark": {
+    "name": "翻墙123",
+    "url": "fanqiang123.com"
+  },
+  "inline": [
+    {
+      "src": "/art/gemini-mac-computer-use-v1-inline-600.webp",
+      "width": 600,
+      "height": 200,
+      "bytes": 3130
+    },
+    {
+      "src": "/art/gemini-mac-computer-use-v1-inline-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 5128
+    },
+    {
+      "src": "/art/gemini-mac-computer-use-v1-inline-1800.webp",
+      "width": 1800,
+      "height": 600,
+      "bytes": 11694
+    }
+  ],
+  "header": [
+    {
+      "src": "/art/gemini-mac-computer-use-v1-header-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 6286
+    },
+    {
+      "src": "/art/gemini-mac-computer-use-v1-header-1600.webp",
+      "width": 1600,
+      "height": 534,
+      "bytes": 13004
+    },
+    {
+      "src": "/art/gemini-mac-computer-use-v1-header-2160.webp",
+      "width": 2160,
+      "height": 720,
+      "bytes": 20428
+    }
+  ]
+}
