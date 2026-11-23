@@ -87,7 +87,7 @@ const monthlyRanking = computed(() => articles
   .sort((a, b) => b.count - a.count)
   .slice(0, 5))
 const recommendedArticles = computed(() => {
-  const limit = 6
+  const limit = 5
   const anchor = current.value ?? articlesById.get(recommendationAnchor.value)
   if (!anchor) return editorialPicks.slice(0, limit)
 
@@ -595,7 +595,10 @@ const selectedArticleCategory = computed(() => {
       <RouteLink v-for="a in recommendedArticles" :key="a.id" :to="a.href">
         <TopicArt :type="a.art" small aria-hidden="true"/>
         <div class="detail-recommendation-text">
-          <span class="category-label"><PortalIcon class="category-icon" :type="articleCategoryIcons[a.category]"/>{{ a.category }}</span>
+          <span class="category-label">
+            <PortalIcon class="category-icon" :type="advancedSubcategoryIcons[a.subcategory] ?? articleCategoryIcons[a.category]"/>
+            {{ a.subcategory || a.category }}
+          </span>
           <h3>{{ a.title }}</h3>
         </div>
       </RouteLink>

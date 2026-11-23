@@ -214,6 +214,12 @@ function endSwipe(event) {
   aspect-ratio:3 / 2;
   object-fit:contain;
 }
+@media (width > 850px) {
+  .hero-carousel {
+    display:grid;
+    align-self:stretch;
+  }
+}
 @media (min-width:1101px) and (max-width:1280px) {
   .hero-feature .hero-copy h1 { font-size:clamp(25px, 2.25vw, 28px); }
 }
