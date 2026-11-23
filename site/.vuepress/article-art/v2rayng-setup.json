@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "v2rayng-setup",
+  "headerPosition": "50% 50%",
+  "watermark": {
+    "name": "翻墙123",
+    "url": "fanqiang123.com"
+  },
+  "inline": [
+    {
+      "src": "/art/v2rayng-setup-detail-v1-inline-600.webp",
+      "width": 600,
+      "height": 200,
+      "bytes": 5254
+    },
+    {
+      "src": "/art/v2rayng-setup-detail-v1-inline-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 8174
+    },
+    {
+      "src": "/art/v2rayng-setup-detail-v1-inline-1800.webp",
+      "width": 1800,
+      "height": 600,
+      "bytes": 15482
+    }
+  ],
+  "header": [
+    {
+      "src": "/art/v2rayng-setup-detail-v1-header-900.webp",
+      "width": 900,
+      "height": 300,
+      "bytes": 7060
+    },
+    {
+      "src": "/art/v2rayng-setup-detail-v1-header-1600.webp",
+      "width": 1600,
+      "height": 534,
+      "bytes": 12934
+    },
+    {
+      "src": "/art/v2rayng-setup-detail-v1-header-2160.webp",
+      "width": 2160,
+      "height": 720,
+      "bytes": 19014
+    }
+  ]
+}

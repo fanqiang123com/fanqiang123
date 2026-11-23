@@ -102,7 +102,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "clash-verge-rev-setup-v1-cover",
-    "artlabel": "粉紫圆形猫脸标识与 Clash Verge Rev、Windows 首次连接字样。",
+    "articleArt": "clash-verge-rev-setup",
+    "artlabel": "粉紫猫脸图标与 Clash Verge Rev、Windows 首次连接字样。",
     "example": false,
     "href": "/articles/clash-verge-rev-setup.html",
     "date": "2026-11-22"
@@ -120,7 +121,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "v2rayn-setup-v1-cover",
-    "artlabel": "蓝色圆形 v2rayN 标识浮在浅蓝分组图形上，右侧是 Windows 订阅分组标题。",
+    "articleArt": "v2rayn-setup",
+    "artlabel": "蓝色圆形 v2rayN 图标与 Windows 订阅分组字样。",
     "example": false,
     "href": "/articles/v2rayn-setup.html",
     "date": "2026-11-22"
@@ -138,7 +140,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "shadowrocket-setup-v1-cover",
-    "artlabel": "蓝紫渐变的火箭图标下方，居中排有 Shadowrocket 和 iPhone 导入与连接字样。",
+    "articleArt": "shadowrocket-setup",
+    "artlabel": "蓝紫火箭图标与 Shadowrocket、iPhone 导入与连接字样。",
     "example": false,
     "href": "/articles/shadowrocket-setup.html",
     "date": "2026-11-22"
@@ -156,7 +159,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "flclash-setup-v1-cover",
-    "artlabel": "FlClash 蓝紫斜线和圆点图标位于右侧，左侧是 Android 导入配置标题。",
+    "articleArt": "flclash-setup",
+    "artlabel": "蓝紫斜线和圆点图标与 FlClash、Android 导入配置字样。",
     "example": false,
     "href": "/articles/flclash-setup.html",
     "date": "2026-11-22"
@@ -174,7 +178,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "v2rayng-setup-v1-cover",
-    "artlabel": "黑色 V 形 v2rayNG 图标衬在浅灰绿的节点图形上，右侧是 Android 选中节点标题。",
+    "articleArt": "v2rayng-setup",
+    "artlabel": "黑色 V 形图标与 v2rayNG、Android 选中节点字样。",
     "example": false,
     "href": "/articles/v2rayng-setup.html",
     "date": "2026-11-22"
@@ -192,7 +197,8 @@ export const articles = [
     "author": "翻墙123",
     "tag": "新手入门",
     "art": "hiddify-setup-v1-cover",
-    "artlabel": "蓝色阶梯状 Hiddify 图标与淡靛蓝圆环，下方居中排有 Android 导入与连接字样。",
+    "articleArt": "hiddify-setup",
+    "artlabel": "蓝色阶梯图标与 Hiddify、Android 导入与连接字样。",
     "example": false,
     "href": "/articles/hiddify-setup.html",
     "date": "2026-11-22"
