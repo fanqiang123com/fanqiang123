@@ -37,7 +37,7 @@ export const articles = [
     ],
     "category": "机场信息",
     "title": "闪电鼠机场：套餐、sd88 优惠与节点测试记录",
-    "description": "整理闪电鼠年付和月付套餐、新用户优惠码 sd88、客户端导入条件，以及服务商提交的节点测试结果。",
+    "description": "对比闪电鼠年付和月付套餐，查看 sd88 优惠、客户端导入方式和节点测试结果。",
     "date": "2026-11-24",
     "href": "/articles/shandianshu-offer.html",
     "art": "shandianshu-offer-source-v2-cover",
