@@ -36,14 +36,14 @@ export const articles = [
       "优惠码"
     ],
     "category": "机场信息",
-    "title": "闪电鼠优惠码 sd88 怎么用？先核对结算金额",
-    "description": "闪电鼠新用户优惠码 sd88。了解适用条件，并在支付前核对订单里的折扣和金额。",
+    "title": "闪电鼠机场：套餐、sd88 优惠与节点测试记录",
+    "description": "整理闪电鼠年付和月付套餐、新用户优惠码 sd88、客户端导入条件，以及服务商提交的节点测试结果。",
     "date": "2026-11-24",
     "href": "/articles/shandianshu-offer.html",
-    "art": "shandianshu-offer-cover",
+    "art": "shandianshu-offer-source-v2-cover",
     "articleArt": "shandianshu-offer",
     "example": false,
-    "artlabel": "微缩工坊里一只灰色小鼠捧着闪电徽章。"
+    "artlabel": "闪电鼠标志：戴黄色护目镜的白鼠、闪电和闪电鼠字标。"
   },
   {
     "id": "clash-rule-match-order",

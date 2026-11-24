@@ -659,12 +659,9 @@ const selectedArticleCategory = computed(() => {
 .imported-article :deep(.imported-logo) { max-width: min(100%, 320px); margin-inline: 0; }
 .imported-article :deep(.imported-table) {
   margin: 1.2em 0 1.5em;
-  overflow-x: auto;
   border: 1px solid var(--line);
 }
 .imported-article :deep(table) {
-  display: table;
-  width: 100%;
   margin: 0;
   border-collapse: collapse;
   font-size: 0.88em;

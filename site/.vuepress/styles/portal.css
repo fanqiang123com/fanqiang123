@@ -1039,8 +1039,19 @@ body:has(.fq-site) {
 .fq-site .detail-content :is(h2,h3,h4,h5,h6) > .header-anchor:hover {
   color:var(--blue);
 }
-.detail-content:not(.imported-article) table {
+.fq-site .detail-content :is(.article-table, .imported-table) {
+  max-width:100%;
+  overflow-x:auto;
+}
+.fq-site .detail-content .article-table {
+  margin-block:1rem;
+}
+.fq-site .detail-content table {
+  display:table;
   width:100%;
+}
+.fq-site .detail-content:not(.imported-article) table {
+  margin:0;
   border-collapse:collapse;
   font-size:14px;
 }
@@ -1090,10 +1101,6 @@ body:has(.fq-site) {
   }
   .fq-site .article-heading h1 { font-size:24px; }
   .fq-site .detail-content h2 { font-size:21px; }
-  .detail-content:not(.imported-article) table {
-    display:block;
-    overflow-x:auto;
-  }
 }
 .fq-site .detail-aside h2 {
   font-size:17px;
@@ -1883,7 +1890,7 @@ body:has(.fq-site) {
   .detail-content :is(ul,ol) {
     padding-inline-start:1.25em
   }
-  .detail-content :is(pre,table) {
+  .detail-content pre {
     max-width:100%;
     overflow-x:auto
   }

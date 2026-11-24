@@ -30,6 +30,21 @@ export const siteConfig = {
       'data-domains': 'fanqiang123.com,www.fanqiang123.com',
     }]] : []),
   ],
+  extendsMarkdown(md) {
+    const rules = md.renderer.rules
+    const openTable = rules.table_open
+    const closeTable = rules.table_close
+    rules.table_open = (tokens, index, options, env, renderer) => {
+      const table = openTable?.(tokens, index, options, env, renderer)
+        ?? renderer.renderToken(tokens, index, options)
+      return env.frontmatter?.layout === 'PortalLayout' ? '<div class="article-table">' + table : table
+    }
+    rules.table_close = (tokens, index, options, env, renderer) => {
+      const table = closeTable?.(tokens, index, options, env, renderer)
+        ?? renderer.renderToken(tokens, index, options)
+      return env.frontmatter?.layout === 'PortalLayout' ? table + '</div>\n' : table
+    }
+  },
   bundler: viteBundler(),
   theme: defaultTheme({
     themePlugins: { backToTop: false },

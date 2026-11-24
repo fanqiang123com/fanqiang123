@@ -1,49 +1,49 @@
 {
   "schemaVersion": 2,
   "id": "shandianshu-offer",
-  "headerPosition": "50% 55%",
+  "headerPosition": "50% 50%",
   "watermark": {
     "name": "翻墙123",
     "url": "fanqiang123.com"
   },
   "inline": [
     {
-      "src": "/art/shandianshu-offer-v1-inline-600.webp",
+      "src": "/art/shandianshu-offer-source-v2-inline-600.webp",
       "width": 600,
       "height": 200,
-      "bytes": 20478
+      "bytes": 7778
     },
     {
-      "src": "/art/shandianshu-offer-v1-inline-900.webp",
+      "src": "/art/shandianshu-offer-source-v2-inline-900.webp",
       "width": 900,
       "height": 300,
-      "bytes": 38048
+      "bytes": 13600
     },
     {
-      "src": "/art/shandianshu-offer-v1-inline-1800.webp",
+      "src": "/art/shandianshu-offer-source-v2-inline-1800.webp",
       "width": 1800,
       "height": 600,
-      "bytes": 113678
+      "bytes": 32940
     }
   ],
   "header": [
     {
-      "src": "/art/shandianshu-offer-v1-header-900.webp",
+      "src": "/art/shandianshu-offer-source-v2-header-900.webp",
       "width": 900,
       "height": 300,
-      "bytes": 42770
+      "bytes": 9940
     },
     {
-      "src": "/art/shandianshu-offer-v1-header-1600.webp",
+      "src": "/art/shandianshu-offer-source-v2-header-1600.webp",
       "width": 1600,
       "height": 534,
-      "bytes": 101914
+      "bytes": 20976
     },
     {
-      "src": "/art/shandianshu-offer-v1-header-2160.webp",
+      "src": "/art/shandianshu-offer-source-v2-header-2160.webp",
       "width": 2160,
       "height": 720,
-      "bytes": 152356
+      "bytes": 30530
     }
   ]
 }
