@@ -110,10 +110,10 @@ const recommendedArticles = computed(() => {
   return ranked.slice(0, recommendationLimit)
 })
 const sidebarGroups = computed(() => [
-  { title: '按标签查找', className: 'topics-box topics-box--mobile' },
+  { title: '按标签查找', className: 'topics-box topics-box--mobile', topicsId: 'mobile-article-topics' },
   { title: '本月阅读榜', className: 'monthly-reading', list: 'ol', entries: monthlyRanking.value },
   { title: '猜你想看', className: 'popular-box', list: 'ul', entries: recommendedArticles.value.map(article => ({ article, count: readCount(article.id) })) },
-  { title: '按标签查找', className: 'topics-box topics-box--desktop' },
+  { title: '按标签查找', className: 'topics-box topics-box--desktop', topicsId: 'desktop-article-topics' },
 ])
 function restoreLastArticle() {
   try {
@@ -174,7 +174,13 @@ const topicCounts = computed(() => {
 })
 const topics = computed(() => [...new Set([
   'Clash', '节点', '机场', '规则', 'sing-box', '订阅', 'AI', ...topicCounts.value.keys(),
-])].filter(tag => topicCounts.value.has(tag)))
+])].filter(tag => topicCounts.value.has(tag))
+  .sort((a, b) => topicCounts.value.get(b) - topicCounts.value.get(a)))
+const sidebarTopicLimit = 20
+const sidebarTopicsExpanded = ref(false)
+const visibleSidebarTopics = computed(() => sidebarTopicsExpanded.value
+  ? topics.value
+  : topics.value.slice(0, sidebarTopicLimit))
 const activeTags = computed(() => {
   const { tag } = route.query
   const tags = Array.isArray(tag) ? tag : [tag]
@@ -504,13 +510,20 @@ const selectedArticleCategory = computed(() => {
 <aside class="portal-rail">
 <section v-for="group in sidebarGroups" :key="group.className" :class="group.className">
   <h2>{{ group.title }}</h2>
-  <div v-if="!group.list">
-    <RouteLink v-for="tag in topics" :key="tag" :to="topicLink(tag)"
-      :class="{ selected: activeTags.includes(tag) }"
-      :aria-label="`${tag}，${topicCounts.get(tag)} 篇文章${activeTags.includes(tag) ? '，已选，取消筛选' : ''}`">
-      # {{ tag }} <span class="topic-count">{{ topicCounts.get(tag) }}</span>
-    </RouteLink>
-  </div>
+  <template v-if="group.topicsId">
+    <div :id="group.topicsId">
+      <RouteLink v-for="tag in visibleSidebarTopics" :key="tag" :to="topicLink(tag)"
+        :class="{ selected: activeTags.includes(tag) }"
+        :aria-label="`${tag}，${topicCounts.get(tag)} 篇文章${activeTags.includes(tag) ? '，已选，取消筛选' : ''}`">
+        # {{ tag }} <span class="topic-count">{{ topicCounts.get(tag) }}</span>
+      </RouteLink>
+    </div>
+    <button v-if="topics.length > sidebarTopicLimit" type="button" class="rail-topics-toggle"
+      :aria-expanded="sidebarTopicsExpanded" :aria-controls="group.topicsId"
+      @click="sidebarTopicsExpanded = !sidebarTopicsExpanded">
+      {{ sidebarTopicsExpanded ? '收起' : '展开全部' }}
+    </button>
+  </template>
   <component :is="group.list" v-else-if="group.entries.length" class="rail-article-list" role="list">
     <li v-for="({ article, count }, index) in group.entries" :key="article.id">
       <RouteLink :to="article.href" class="rail-article-link">
