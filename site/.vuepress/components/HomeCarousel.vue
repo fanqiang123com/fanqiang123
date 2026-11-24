@@ -8,7 +8,7 @@ const slides = [
   {
     title: ['开始翻墙，', '总共分三步'],
     description: ['用本站免费节点，跟着截图操作。', '找节点、装软件、开连接。'],
-    action: '从零开始学翻墙',
+    action: '开始翻墙',
     art: 'three-steps-workshop',
     articleCover: true,
     to: articles.find(article => article.id === 'three-steps').href,
