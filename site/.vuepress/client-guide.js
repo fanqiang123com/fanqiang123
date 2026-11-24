@@ -13,7 +13,7 @@ const details = {
     "description": "Clash 桌面客户端，可导入订阅、切换策略组并按规则分流。",
     "highlight": "从系统托盘就能开关系统代理和 TUN，日常切换不用打开主窗口。",
     "tradeoff": "系统代理、TUN 和策略组需要分别理解，第一次配置时容易混淆。",
-    "tutorial": "https://www.clashverge.dev/guide/profile.html",
+    "tutorial": "/articles/clash-verge-rev-setup.html",
     "source": "github",
     "count": 158091,
     "page": "https://github.com/clash-verge-rev/clash-verge-rev"
@@ -31,7 +31,7 @@ const details = {
     "description": "跨平台 Clash 客户端，支持订阅、节点测速和规则分流。",
     "highlight": "支持用本地文件或 WebDAV 备份和恢复配置，换设备时省去重配。",
     "tradeoff": "要用 Clash 兼容配置，其他客户端的订阅链接不一定能直接导入。",
-    "tutorial": "https://github.com/chen08209/FlClash#usage",
+    "tutorial": "/articles/flclash-setup.html",
     "source": "github",
     "count": 62900,
     "page": "https://github.com/chen08209/FlClash"
@@ -40,7 +40,7 @@ const details = {
     "description": "桌面代理客户端，支持 Xray、sing-box 等内核及多种协议。",
     "highlight": "节点列表可按实测延迟或速度排序，订阅节点多时更容易挑选。",
     "tradeoff": "内核和路由选项较多，进阶配置需要先了解协议和分流。",
-    "tutorial": "https://github.com/2dust/v2rayN/wiki",
+    "tutorial": "/articles/v2rayn-setup.html",
     "source": "github",
     "count": 120505,
     "page": "https://github.com/2dust/v2rayN"
@@ -49,7 +49,7 @@ const details = {
     "description": "Android 客户端，可导入 V2Ray / Xray 节点和订阅。",
     "highlight": "可扫码导入单个节点，也能只让选中的 Android 应用走代理。",
     "tradeoff": "仅支持 Android，Clash YAML 规则配置不能直接照搬。",
-    "tutorial": "/clients/setup.html#v2rayng",
+    "tutorial": "/articles/v2rayng-setup.html",
     "source": "github",
     "count": 65794,
     "page": "https://github.com/2dust/v2rayNG"
@@ -58,7 +58,7 @@ const details = {
     "description": "跨平台客户端，可导入订阅，支持多种常见代理协议。",
     "highlight": "能按延迟自动选节点，日常连接可以少一步手动挑选。",
     "tradeoff": "高级分流仍依赖配置文件，想逐条定制规则时需要额外设置。",
-    "tutorial": "https://hiddify.com/app/How-to-use-Hiddify-app/",
+    "tutorial": "/articles/hiddify-setup.html",
     "source": "github",
     "count": 33966,
     "page": "https://github.com/hiddify/hiddify-app"
@@ -76,7 +76,7 @@ const details = {
     "description": "支持 iPhone、iPad 和 Mac，可导入节点与订阅并按规则分流。",
     "highlight": "可以直接在手机上查看 DNS 和网页请求记录，排查某个域名连不上的原因。",
     "tradeoff": "App Store 付费下载，能否购买取决于 Apple 账户地区。",
-    "tutorial": "/clients/setup.html#shadowrocket",
+    "tutorial": "/articles/shadowrocket-setup.html",
     "source": "appstore",
     "count": 12349,
     "page": "https://apps.apple.com/us/app/shadowrocket/id932747118"

@@ -39,6 +39,8 @@ const recommendationAnchor = ref(null)
 const recommendationResult = ref(null)
 const articlesById = new Map(articles.map(article => [article.id, article]))
 const editorialPicks = ['three-steps'].map(id => articlesById.get(id)).filter(Boolean)
+const defaultArticleLimit = 5
+const recommendationLimit = 5
 const lastArticleKey = 'fanqiang123:last-article'
 const readingSessionDuration = 30 * 60 * 1000
 let lastArticle = null
@@ -81,15 +83,16 @@ function readCount(id) {
   return monthlyCounts.value ? (monthlyCounts.value[id] ?? 0) : null
 }
 
-const monthlyRanking = computed(() => articles
-  .map(article => ({ article, count: readCount(article.id) }))
-  .filter(entry => entry.count > 0)
-  .sort((a, b) => b.count - a.count)
-  .slice(0, 5))
+const monthlyRanking = computed(() => {
+  if (!monthlyCounts.value) return []
+  return articles
+    .map(article => ({ article, count: readCount(article.id) }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, defaultArticleLimit)
+})
 const recommendedArticles = computed(() => {
-  const limit = 5
   const anchor = current.value ?? articlesById.get(recommendationAnchor.value)
-  if (!anchor) return editorialPicks.slice(0, limit)
+  if (!anchor) return [...new Set([...editorialPicks, ...articles])].slice(0, recommendationLimit)
 
   const result = recommendationResult.value
   const observed = result?.anchor === anchor.id ? result.ids.map(id => articlesById.get(id)).filter(Boolean) : []
@@ -102,12 +105,9 @@ const recommendedArticles = computed(() => {
     .sort((a, b) => b.relevance - a.relevance)
     .map(entry => entry.article)
 
-  const ranked = [...observed, ...related, ...editorialPicks]
-  if (current.value) ranked.push(...articles)
-
-  return [...new Set(ranked)]
+  const ranked = [...new Set([...observed, ...related, ...editorialPicks, ...articles])]
     .filter(article => article.id !== anchor.id)
-    .slice(0, limit)
+  return ranked.slice(0, recommendationLimit)
 })
 const sidebarGroups = computed(() => [
   { title: '按标签查找', className: 'topics-box topics-box--mobile' },
@@ -154,7 +154,7 @@ const subcategory = computed(() => isAdvancedCategory.value && typeof route.quer
 const showArticleCategory = computed(() => (isAdvancedCategory.value ? subcategory.value : category.value) === '全部')
 const advancedTabIcons = { 全部: 'grid', ...advancedSubcategoryIcons }
 const activeQ = computed(() => String(route.query.q || '').toLowerCase())
-const count = ref(4)
+const count = ref(defaultArticleLimit)
 const visibleTopicLimit = 3
 const expandedTopicArticles = ref(new Set())
 function toggleArticleTopics(articleId) {
@@ -172,8 +172,9 @@ const topicCounts = computed(() => {
   }
   return counts
 })
-const topics = computed(() => ['Clash', '节点', '机场', '规则', 'sing-box', '订阅', 'AI']
-  .filter(tag => topicCounts.value.has(tag)))
+const topics = computed(() => [...new Set([
+  'Clash', '节点', '机场', '规则', 'sing-box', '订阅', 'AI', ...topicCounts.value.keys(),
+])].filter(tag => topicCounts.value.has(tag)))
 const activeTags = computed(() => {
   const { tag } = route.query
   const tags = Array.isArray(tag) ? tag : [tag]
@@ -272,7 +273,7 @@ onUnmounted(() => {
 
 watch(() => route.fullPath, () => {
   q.value = String(route.query.q || '')
-  count.value = 4
+  count.value = defaultArticleLimit
   activeHeaderPanel.value = ''
 })
 
@@ -426,7 +427,7 @@ const selectedArticleCategory = computed(() => {
 <section class="portal-hero" aria-label="精选内容">
 <HomeCarousel/>
 <nav class="entry-grid" aria-label="快速入口">
-  <RouteLink :to="articles[0].href"><span class="entry-icon blue"><PortalIcon type="beginner"/></span><div><h2>我是新手</h2><p>从基础概念到第一次连接</p></div><span aria-hidden="true">→</span></RouteLink>
+  <RouteLink to="/articles/three-steps.html"><span class="entry-icon blue"><PortalIcon type="beginner"/></span><div><h2>我是新手</h2><p>从基础概念到第一次连接</p></div><span aria-hidden="true">→</span></RouteLink>
   <RouteLink to="/clients/">
     <span class="entry-icon purple"><PortalIcon type="clash"/></span>
     <div><h2>客户端选择困难？看看评分。</h2><p>客户端指南</p></div>
@@ -600,6 +601,7 @@ const selectedArticleCategory = computed(() => {
             {{ a.subcategory || a.category }}
           </span>
           <h3>{{ a.title }}</h3>
+          <ArticleReadCount :count="readCount(a.id)"/>
         </div>
       </RouteLink>
     </aside>
