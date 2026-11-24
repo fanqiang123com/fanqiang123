@@ -3,13 +3,13 @@ import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 
-const base = process.env.fanqiang123_SITE_BASE || '/'
-const apiOrigin = process.env.VITE_fanqiang123_API_ORIGIN || ''
+const base = process.env.PORTAL_SITE_BASE || '/'
+const apiOrigin = process.env.VITE_PORTAL_API_ORIGIN || ''
 const analyticsId = process.env.NODE_ENV === 'production'
   ? '78efe88a-e0df-4435-bf4c-5fc1270be407'
   : ''
 if (apiOrigin && new URL(apiOrigin).origin !== apiOrigin) {
-  throw new Error('VITE_fanqiang123_API_ORIGIN must be an origin without a trailing slash or path')
+  throw new Error('VITE_PORTAL_API_ORIGIN must be an origin without a trailing slash or path')
 }
 
 export const siteConfig = {
@@ -47,7 +47,7 @@ export const siteConfig = {
   },
   bundler: viteBundler(),
   theme: defaultTheme({
-    themePlugins: { backToTop: false },
+    themePlugins: { backToTop: false, git: { createdTime: false, updatedTime: false, contributors: false, changelog: false } },
     navbar: [{ text: '首页', link: '/' }, { text: '开始阅读', link: '/guide/' }],
     sidebar: { '/guide/': [
       { text: '文档', children: ['/guide/', '/guide/writing', '/guide/structure'] },

@@ -66,8 +66,8 @@ function updateReads(articleId) {
         method: 'POST',
         keepalive: true,
         headers: {
-          'X-fanqiang123-Article-View': '1',
-          ...(previousId && previousId !== articleId ? { 'X-fanqiang123-Previous-Article': previousId } : {}),
+          'X-Fanqiang123-Article-View': '1',
+          ...(previousId && previousId !== articleId ? { 'X-Fanqiang123-Previous-Article': previousId } : {}),
         },
       })
       : await fetch(anchor ? `${endpoint}?from=${encodeURIComponent(anchor)}` : endpoint)

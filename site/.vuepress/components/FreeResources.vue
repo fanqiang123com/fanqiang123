@@ -177,7 +177,7 @@ async function copy(value) {
   <p v-if="status === 'loading'" class="free-resource-message" role="status">正在加载资源…</p>
   <div v-else-if="status === 'unavailable'" class="free-resource-message">
     <p>本站暂时无法提供这批资源。</p>
-    <a v-if="!nodePage" href="https://clashfreenode.com/shadowrocketids">前往 CFN 查看免费小火箭 ID ↗</a>
+    <a v-if="!nodePage" href="https://clashfreenode.com/shadowrocketids">前往 ClashFreeNode 查看免费小火箭 ID ↗</a>
   </div>
   <template v-else-if="nodePage">
     <FreeNodeList

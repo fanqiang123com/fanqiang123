@@ -32,14 +32,14 @@ jobs:
       - name: Verify release and Pages configuration
         if: github.event_name != 'pull_request'
         env:
-          API_ORIGIN: ${{ secrets.fanqiang123_API_ORIGIN }}
+          API_ORIGIN: https://fanqiang123-api.gemcook.net
         run: |
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
           test "$(git rev-parse "refs/tags/recovery-ready/${GITHUB_SHA}^{commit}")" = "${GITHUB_SHA}"
           node --input-type=module -e '
             const origin = process.env.API_ORIGIN;
             if (!origin || new URL(origin).origin !== origin || !origin.startsWith("https://")) {
-              throw new Error("Set fanqiang123_API_ORIGIN to the HTTPS origin of the fanqiang123 API");
+              throw new Error("Set API_ORIGIN to the HTTPS origin of the public API");
             }
           '
       - uses: actions/configure-pages@v5
@@ -47,8 +47,8 @@ jobs:
         if: github.event_name != 'pull_request'
       - name: Build VuePress
         env:
-          fanqiang123_SITE_BASE: ${{ format('{0}/', steps.pages.outputs.base_path) }}
-          VITE_fanqiang123_API_ORIGIN: ${{ secrets.fanqiang123_API_ORIGIN }}
+          PORTAL_SITE_BASE: ${{ format('{0}/', steps.pages.outputs.base_path) }}
+          VITE_PORTAL_API_ORIGIN: https://fanqiang123-api.gemcook.net
         run: npm run build
       - name: Identify release and upload root
         if: github.event_name != 'pull_request'

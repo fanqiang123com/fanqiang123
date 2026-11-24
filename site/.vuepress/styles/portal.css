@@ -618,7 +618,7 @@ body:has(.fq-site) {
     padding-block:14px;
   }
 }
-/* FNA_V3 light cards use the shared shadow with no outline. */
+/* ClashFreeNode light cards use the shared shadow with no outline. */
 [data-theme='light'] .fq-site :is(
   .entry-grid>a,
   .portal-rail>section,
@@ -2024,7 +2024,7 @@ body:has(.fq-site) {
 }
 .portal-body:first-child { padding-top:var(--section-top-gap) }
 
-/* FNA_V3 tutorial material reference; portal structure remains the blue-white baseline. */
+/* ClashFreeNode tutorial material reference; portal structure remains the blue-white baseline. */
 .paper-art{background:#f4eadb!important;color:inherit}
 .paper-art>img{display:block;width:100%;height:100%;object-fit:cover;max-width:100%}
 .portal-icon{display:block;width:27px;height:27px;flex:none}
@@ -2148,7 +2148,7 @@ body:has(.fq-site) {
   object-fit:contain;
 }
 
-/* Match the single-pass image sheen in FNA_V3. */
+/* Match the single-pass image sheen in ClashFreeNode. */
 @media (hover:hover) and (prefers-reduced-motion:no-preference) {
   .fq-site :is(.story-art, .rail-article-link, .detail-aside > a) > .paper-art {
     overflow:hidden;
