@@ -1,3 +1,4 @@
+import shandianshuOffer from './article-art/shandianshu-offer.json'
 import hiddifySetup from './article-art/hiddify-setup.json'
 import v2rayngSetup from './article-art/v2rayng-setup.json'
 import flclashSetup from './article-art/flclash-setup.json'
@@ -16,6 +17,7 @@ import manualSubscriptionImport from './article-art/manual-subscription-import.j
 import genieProject from './article-art/genie-4-project-genie.json'
 
 export const articleArtwork = {
+  'shandianshu-offer': shandianshuOffer,
   'hiddify-setup': hiddifySetup,
   'v2rayng-setup': v2rayngSetup,
   'flclash-setup': flclashSetup,
