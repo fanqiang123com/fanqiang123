@@ -31,6 +31,12 @@ export const toolResources = [
 export const articles = [
   {
     "id": "shandianshu-offer",
+    "starterPlan": {
+      "name": "轻快版",
+      "price": "22 元／月",
+      "traffic": "120 GB／30 天",
+      "priceMonth": "2026 年 10 月"
+    },
     "topics": [
       "闪电鼠",
       "优惠码"

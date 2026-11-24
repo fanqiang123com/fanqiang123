@@ -2,7 +2,10 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { RouteLink } from 'vuepress/client'
 import { portalApiUrl } from '../portal-api.js'
+import { articles } from '../portal.js'
+import OfferCodeCopy from './OfferCodeCopy.vue'
 
+const airportArticles = articles.filter(article => article.category === '机场信息')
 const offers = ref([])
 const status = ref('loading')
 const request = new AbortController()
@@ -18,7 +21,11 @@ onMounted(async () => {
     if (!response.ok) throw new Error('Airport offers unavailable')
     const data = await response.json()
     if (!Array.isArray(data.offers)) throw new Error('Invalid airport offers response')
-    offers.value = data.offers
+    offers.value = data.offers.map(offer => {
+      const article = airportArticles.find(article => article.topics?.includes(offer.airport))
+      const starterPlan = !offer.plan && !offer.price && !offer.traffic ? article?.starterPlan : undefined
+      return { ...offer, articleHref: article?.href, starterPlan }
+    })
     status.value = 'ready'
   } catch {
     if (!request.signal.aborted) status.value = 'error'
@@ -38,15 +45,25 @@ onUnmounted(() => request.abort())
     <ul v-if="offers.length" class="offer-list" aria-label="机场优惠码列表">
       <li v-for="offer in offers" :key="offer.id" class="offer-row">
         <div class="offer-name">
-          <h2>{{ offer.airport }}</h2>
-          <p v-if="offer.plan">{{ offer.plan }}</p>
+          <h2>
+            <RouteLink v-if="offer.articleHref" :to="offer.articleHref">{{ offer.airport }}</RouteLink>
+            <template v-else>{{ offer.airport }}</template>
+          </h2>
+          <p v-if="offer.starterPlan">起步套餐 · {{ offer.starterPlan.name }}</p>
+          <p v-else-if="offer.plan">{{ offer.plan }}</p>
         </div>
         <dl class="offer-details">
-          <div v-if="offer.price"><dt>套餐价格</dt><dd>{{ offer.price }}</dd></div>
-          <div v-if="offer.traffic"><dt>流量</dt><dd>{{ offer.traffic }}</dd></div>
+          <template v-if="offer.starterPlan">
+            <div><dt>起步价（{{ offer.starterPlan.priceMonth }}）</dt><dd>{{ offer.starterPlan.price }}</dd></div>
+            <div><dt>流量</dt><dd>{{ offer.starterPlan.traffic }}</dd></div>
+          </template>
+          <template v-else>
+            <div v-if="offer.price"><dt>套餐价格</dt><dd>{{ offer.price }}</dd></div>
+            <div v-if="offer.traffic"><dt>流量</dt><dd>{{ offer.traffic }}</dd></div>
+          </template>
           <div>
             <dt>优惠码</dt>
-            <dd><code>{{ offer.code }}</code></dd>
+            <dd><OfferCodeCopy :code="offer.code"/></dd>
           </div>
           <div><dt>收录时间</dt><dd><time :datetime="offer.addedAt">{{ addedAtFormat.format(new Date(offer.addedAt)) }}</time></dd></div>
         </dl>

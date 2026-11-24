@@ -24,6 +24,11 @@
 .offer-name h2 {
   font-size:17px;
 }
+.offer-name a {
+  color:var(--blue);
+  text-underline-offset:0.18em;
+}
+.offer-name a:is(:hover,:focus-visible) { text-decoration:underline; }
 .offer-name p,.offer-details dt {
   color:var(--muted);
 }
@@ -36,12 +41,6 @@
 .offer-details dd {
   margin:3px 0 0;
   font-weight:600;
-}
-.offer-details code {
-  padding:2px 5px;
-  border-radius:4px;
-  background:var(--control-hover,#eef3ff);
-  color:var(--blue);
 }
 @media(max-width:680px) {
   .offer-row {
