@@ -16,8 +16,11 @@ import FreeResources from './FreeResources.vue'
 import AirportOffers from './AirportOffers.vue'
 import ArticleReadCount from './ArticleReadCount.vue'
 import ArticleContents from './ArticleContents.vue'
+import CopyNotice from './CopyNotice.vue'
+import { provideCopyNotice } from '../copy-notice.js'
 import { portalApiUrl } from '../portal-api.js'
 
+const copyNoticeId = provideCopyNotice()
 const detailArticle = ref(null)
 const route = useRoute(), router = useRouter(), page = usePageData()
 const section = computed(() => page.value.frontmatter.section || '')
@@ -626,6 +629,7 @@ const selectedArticleCategory = computed(() => {
     <span class="footer-copyright">© 2026 翻墙123</span>
   </div>
 </footer>
+<CopyNotice :notice-id="copyNoticeId"/>
 </div>
 </template>
 

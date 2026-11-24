@@ -49,12 +49,12 @@ onUnmounted(() => request.abort())
             <RouteLink v-if="offer.articleHref" :to="offer.articleHref">{{ offer.airport }}</RouteLink>
             <template v-else>{{ offer.airport }}</template>
           </h2>
-          <p v-if="offer.starterPlan">起步套餐 · {{ offer.starterPlan.name }}</p>
+          <p v-if="offer.starterPlan">最低套餐 · {{ offer.starterPlan.name }}</p>
           <p v-else-if="offer.plan">{{ offer.plan }}</p>
         </div>
         <dl class="offer-details">
           <template v-if="offer.starterPlan">
-            <div><dt>起步价（{{ offer.starterPlan.priceMonth }}）</dt><dd>{{ offer.starterPlan.price }}</dd></div>
+            <div><dt>价格（{{ offer.starterPlan.priceMonth }}）</dt><dd>{{ offer.starterPlan.price }}</dd></div>
             <div><dt>流量</dt><dd>{{ offer.starterPlan.traffic }}</dd></div>
           </template>
           <template v-else>

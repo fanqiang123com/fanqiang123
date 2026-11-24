@@ -7,8 +7,10 @@ import ToolBreadcrumb from './ToolBreadcrumb.vue'
 import { matchesNodeFilters } from '../free-node-filters.js'
 import { clientImportUrl, detectImportPlatform, importClients, importPlatforms } from '../free-node-import.js'
 import { portalApiUrl } from '../portal-api.js'
+import { useCopyNotice } from '../copy-notice.js'
 
 const props = defineProps({ kind: { type: String, required: true } })
+const showCopyNotice = useCopyNotice()
 const nodePage = computed(() => props.kind === 'nodes')
 const title = computed(() => nodePage.value ? '免费节点' : '免费小火箭 ID')
 const subscriptionPath = '/api/free-resources/subscribe'
@@ -99,7 +101,6 @@ async function showSubscriptionQr() {
 const status = ref('loading')
 const region = ref('')
 const shown = ref([])
-const copied = ref('')
 const manualCopy = ref('')
 const copyField = ref(null)
 const accounts = computed(() => snapshot.value?.accounts ?? [])
@@ -126,7 +127,6 @@ watch(() => props.kind, async (kind, _, onCleanup) => {
   importPlatform.value = ''
   if (kind === 'nodes') restoreImportPreference()
   shown.value = []
-  copied.value = ''
   manualCopy.value = ''
   try {
     const response = await fetch(portalApiUrl(`/api/free-resources/${kind}`), { signal: request.signal })
@@ -147,24 +147,20 @@ function togglePassword(index) {
     : [...shown.value, index]
 }
 
-async function copy(value, label) {
+async function copy(value) {
   manualCopy.value = ''
-  copied.value = ''
   try {
     await navigator.clipboard.writeText(value)
-    copied.value = `已复制${label}`
   } catch {
     manualCopy.value = value
-    copied.value = '请手动复制已选中的内容。'
     await nextTick()
     copyField.value?.select()
     try {
-      if (document.execCommand('copy')) {
-        manualCopy.value = ''
-        copied.value = `已复制${label}`
-      }
-    } catch { /* Leave the selected value available for manual copy. */ }
+      if (!document.execCommand('copy')) return
+    } catch { return }
+    manualCopy.value = ''
   }
+  showCopyNotice()
 }
 </script>
 
@@ -207,7 +203,7 @@ async function copy(value, label) {
               </button>
             </div>
             <div class="free-import-actions">
-              <button type="button" :disabled="!hasNodes" @click="copy(subscriptionUrl(), '订阅地址')">
+              <button type="button" :disabled="!hasNodes" @click="copy(subscriptionUrl())">
                 <span class="free-import-action-icon"><PortalIcon type="copy"/></span>
                 <span><strong>复制订阅地址</strong><small>复制订阅链接到剪贴板</small></span>
               </button>
@@ -283,7 +279,7 @@ async function copy(value, label) {
           <span class="free-id-label">账号</span>
           <div class="free-id-controls">
             <code>{{ account.account }}</code>
-            <button type="button" @click="copy(account.account, '账号')">复制账号</button>
+            <button type="button" @click="copy(account.account)">复制账号</button>
           </div>
         </div>
         <div class="free-id-field">
@@ -296,14 +292,14 @@ async function copy(value, label) {
                 <PortalIcon type="eye"/>
               </button>
             </div>
-            <button type="button" @click="copy(account.password, '密码')">复制密码</button>
+            <button type="button" @click="copy(account.password)">复制密码</button>
           </div>
         </div>
         <p v-if="account.checked_at" class="free-id-checked">检测时间：{{ account.checked_at }}</p>
       </article>
     </div>
   </template>
-  <div v-if="copied" class="free-copy-status" role="status">{{ copied }}</div>
+  <div v-if="manualCopy" class="free-copy-status" role="status">请手动复制已选中的内容。</div>
   <textarea v-if="manualCopy && !nodePage" ref="copyField" :value="manualCopy" aria-label="手动复制内容" readonly class="free-copy-field"/>
 </template>
 

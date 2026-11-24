@@ -31,6 +31,8 @@ const paths=computed(()=>shapes[props.type]||shapes.beginner)
   <svg class="portal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
     <path v-if="type === 'pin'" d="M15 7h18v5h-3v8l7 8v4H11v-4l7-8v-8h-3zM24 32v10"
       stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path v-else-if="type === 'check'" d="M10 24l9 9 19-19"
+      stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     <template v-else>
       <path :d="paths[0]" fill="currentColor" opacity=".14" transform="translate(1 2)"/>
       <path :d="paths[0]" fill="currentColor" opacity=".13"/>
