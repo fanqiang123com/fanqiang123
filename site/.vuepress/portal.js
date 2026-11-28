@@ -30,6 +30,24 @@ export const toolResources = [
 
 export const articles = [
   {
+    "id": "3x-ui-vless-reality",
+    "topics": [
+      "3x-ui",
+      "VLESS",
+      "REALITY",
+      "Ubuntu"
+    ],
+    "category": "进阶玩法",
+    "subcategory": "其他",
+    "title": "Ubuntu 24.04 上用 3x-ui 配置 VLESS + REALITY",
+    "description": "在自己的 Ubuntu VPS 安装 3x-ui，用 SSH 打开面板，配置 VLESS + REALITY 入站，再导入客户端检查连接。",
+    "date": "2026-11-28",
+    "href": "/articles/3x-ui-vless-reality.html",
+    "art": "3x-ui-vless-reality-v1-cover",
+    "articleArt": "3x-ui-vless-reality",
+    "artlabel": "桌面显示器与两层服务器机架分处工作台两侧，中间的橙线表示客户端到服务端的网络连接。"
+  },
+  {
     "id": "shandianshu-offer",
     "starterPlan": {
       "name": "轻快版",
